@@ -14,7 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class Settings extends AppCompatActivity {
-    SharedPreferences prefs;
+    SharedPreferences settings;
     String name, age, sex, ft, in, weight;
 
     @Override
@@ -36,7 +36,7 @@ public class Settings extends AppCompatActivity {
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SharedPreferences.Editor editor = prefs.edit();
+                SharedPreferences.Editor editor = settings.edit();
 
                 //get input values
                 name = nameField.getText().toString();
@@ -61,13 +61,13 @@ public class Settings extends AppCompatActivity {
         });
 
         //load saved entries, set empty if not present
-        prefs = getPreferences(Context.MODE_PRIVATE);
-        name = prefs.getString("name","");
-        age = prefs.getString("age","");
-        sex = prefs.getString("sex","");
-        ft = prefs.getString("ft","");
-        in = prefs.getString("in","");
-        weight = prefs.getString("weight","");
+        settings = getSharedPreferences("Settings", Context.MODE_PRIVATE);
+        name = settings.getString("name","");
+        age = settings.getString("age","");
+        sex = settings.getString("sex","");
+        ft = settings.getString("ft","");
+        in = settings.getString("in","");
+        weight = settings.getString("weight","");
 
         //put saved entries into entry fields
         nameField.setText(name);
