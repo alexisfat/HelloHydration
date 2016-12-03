@@ -20,6 +20,10 @@
             android:name=".Settings"
             android:label="Settings">
         </activity>
+        <activity
+            android:name=".ExerciseTracker"
+            android:label="Exercise">
+        </activity>
     </application>
 
 </manifest>
