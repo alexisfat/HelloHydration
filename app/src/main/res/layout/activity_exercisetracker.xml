@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:stretchColumns="1">
+    <TableRow android:paddingTop="100dp">
+
+        <ImageView
+            android:paddingLeft="30dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@mipmap/walking"
+            android:id="@+id/imageView5" />
+
+        <TextView
+            android:text="21:00"
+            android:gravity="center"
+            android:padding="3dip" />
+    </TableRow>
+
+    <TableRow android:paddingTop="50dp">
+        <ImageView
+            android:paddingLeft="30dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@mipmap/running"
+            android:id="@+id/imageView6" />
+        <TextView
+            android:text="36:12"
+            android:gravity="center"
+            android:padding="3dip" />
+    </TableRow>
+
+    <TableRow android:paddingTop="50dp">
+        <ImageView
+            android:paddingLeft="30dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@mipmap/biking"
+            android:id="@+id/imageView7" />
+        <TextView
+            android:text="10:15"
+            android:gravity="center"
+            android:padding="3dip" />
+    </TableRow>
+</TableLayout>
