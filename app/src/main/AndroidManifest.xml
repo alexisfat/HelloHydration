@@ -20,6 +20,10 @@
             android:name=".Settings"
             android:label="Settings">
         </activity>
+        <activity
+            android:name=".BarGraph"
+            android:label="BarGraph">
+        </activity>
     </application>
 
 </manifest>

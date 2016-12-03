@@ -112,6 +112,12 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(MainActivity.this, Settings.class);
             startActivity(intent);
             return true;
+        } else {
+            if(id == R.id.action_bargraph){
+                Intent intent = new Intent(MainActivity.this, BarGraph.class);
+                startActivity(intent);
+                return true;
+            }
         }
         return super.onOptionsItemSelected(item);
     }
