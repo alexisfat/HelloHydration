@@ -107,26 +107,21 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-
-        if (id == R.id.action_settings) {
-            Intent intent = new Intent(MainActivity.this, Settings.class);
-            startActivity(intent);
-            return true;
-
-        } else if (id == R.id.action_bargraph) {
-            Intent intent = new Intent(MainActivity.this, BarGraph.class);
-            startActivity(intent);
-            return true;
-
-        } else if (id == R.id.action_exercisetracker) {
-            Intent intent = new Intent(MainActivity.this, ExerciseTracker.class);
-            startActivity(intent);
-            return true;
-
-        } else {
-
+        Intent intent;
+        switch (id) {
+            case(R.id.action_settings):
+                intent = new Intent(MainActivity.this, Settings.class);
+                startActivity(intent);
+                break;
+            case(R.id.action_bargraph):
+                intent = new Intent(MainActivity.this, BarGraph.class);
+                startActivity(intent);
+                break;
+            case(R.id.action_exercisetracker):
+                intent = new Intent(MainActivity.this, ExerciseTracker.class);
+                startActivity(intent);
+                break;
         }
-
         return super.onOptionsItemSelected(item);
     }
 }

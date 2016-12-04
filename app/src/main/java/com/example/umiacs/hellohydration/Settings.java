@@ -42,21 +42,29 @@ public class Settings extends AppCompatActivity {
                 name = nameField.getText().toString();
                 age = ageField.getText().toString();
                 RadioButton checked = (RadioButton) findViewById(radioGroup.getCheckedRadioButtonId());
-                sex = checked.getText().toString();
+                if(checked != null) {
+                    sex = checked.getText().toString();
+                } else {
+                    sex = "";
+                }
                 ft = ftField.getText().toString();
                 in = inField.getText().toString();
                 weight = weightField.getText().toString();
 
-                //store inputs
-                editor.putString("name", name);
-                editor.putString("age", age);
-                editor.putString("sex", sex);
-                editor.putString("ft", ft);
-                editor.putString("in", in);
-                editor.putString("weight", weight);
-                editor.commit();
+                if(name.matches("") || age.matches("") || sex.matches("") || ft.matches("") || in.matches("") || weight.matches("")) {
+                    Toast.makeText(getApplicationContext(), "Fill out all fields.", Toast.LENGTH_SHORT).show();
+                } else {
+                    //store inputs
+                    editor.putString("name", name);
+                    editor.putString("age", age);
+                    editor.putString("sex", sex);
+                    editor.putString("ft", ft);
+                    editor.putString("in", in);
+                    editor.putString("weight", weight);
+                    editor.commit();
 
-                Toast.makeText(getApplicationContext(), "Settings saved!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Settings saved!", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
