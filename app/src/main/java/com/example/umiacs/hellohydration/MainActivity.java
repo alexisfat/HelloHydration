@@ -22,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
     SharedPreferences settings;
     SharedPreferences.Editor editor;
     SharedPreferences progress;
+    SharedPreferences exerciseTracker;
     int progress_percent;
     double goalDouble;
     int lastDay;
@@ -99,13 +100,15 @@ public class MainActivity extends AppCompatActivity {
             [weight] * 0.5oz + [minutes of exercise] * 12oz
             https://www.umsystem.edu/newscentral/totalrewards/2014/06/19/how-to-calculate-how-much-water-you-should-drink/
         */
-
         TextView goalNum = (TextView) findViewById(R.id.goalNum);
         settings = getSharedPreferences("Settings", Context.MODE_PRIVATE);
         String weightStr = settings.getString("weight","");
+        exerciseTracker = getSharedPreferences("exerciseTracker", Context.MODE_PRIVATE);
+        long mins = exerciseTracker.getLong("minutesWalking", 0) +
+                exerciseTracker.getLong("minutesRunning", 0) +
+                exerciseTracker.getLong("minutesBiking", 0);
         if(weightStr.length() > 0) {    //user entered a weight
-            //TODO: retrieve minutes of exercise
-            goalDouble = Double.parseDouble(weightStr) * 0.5 + 0 * 12;
+            goalDouble = Double.parseDouble(weightStr) * 0.5 + mins * 12;
             goalNum.setText(Double.toString(goalDouble) + " fl oz.");
             Toast.makeText(getApplicationContext(), "Goal updated!", Toast.LENGTH_SHORT).show();
         }  else {
