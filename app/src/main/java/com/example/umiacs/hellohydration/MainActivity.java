@@ -86,13 +86,21 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume(){
         super.onResume();
 
-        //calculate goal from settings
-        //TODO: actually calculate goal from settings
+        /*
+            [weight] * 0.5oz + [minutes of exercise] * 12oz
+            https://www.umsystem.edu/newscentral/totalrewards/2014/06/19/how-to-calculate-how-much-water-you-should-drink/
+        */
+
+        TextView goalNum = (TextView) findViewById(R.id.goalNum);
         settings = getSharedPreferences("Settings", Context.MODE_PRIVATE);
-        if(settings.getString("name","").length() > 0) {    //user entered at least a name in settings
-            TextView goalNum = (TextView) findViewById(R.id.goalNum);
-            goalNum.setText("64 fl oz.");
+        String weightStr = settings.getString("weight","");
+        if(weightStr.length() > 0) {    //user entered a weight
+            //TODO: retrieve minutes of exercise
+            double goalDouble = Double.parseDouble(weightStr) * 0.5 + 0 * 12;
+            goalNum.setText(Double.toString(goalDouble));
             Toast.makeText(getApplicationContext(), "Goal updated!", Toast.LENGTH_SHORT).show();
+        }  else {
+            goalNum.setText("None set");
         }
     }
 
