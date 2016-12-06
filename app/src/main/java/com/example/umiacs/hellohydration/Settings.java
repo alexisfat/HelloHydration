@@ -31,7 +31,6 @@ public class Settings extends AppCompatActivity {
         final EditText weightField = (EditText) findViewById(R.id.weightField);
 
         //set up save button
-        //TODO: make sure input is valid
         Button saveButton = (Button) findViewById(R.id.saveButton);
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
