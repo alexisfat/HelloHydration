@@ -1,47 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:stretchColumns="1">
-    <TableRow android:paddingTop="100dp">
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-        <ImageView
-            android:paddingLeft="30dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:srcCompat="@mipmap/walking"
-            android:id="@+id/imageView5" />
+        <TableRow android:paddingTop="80dp">
 
-        <TextView
-            android:text="21:00"
-            android:gravity="center"
-            android:padding="3dip" />
-    </TableRow>
+            <ImageView
+                android:paddingLeft="30dp"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                app:srcCompat="@mipmap/walking"
+                android:id="@+id/imageView5" />
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="100dp"/>
 
-    <TableRow android:paddingTop="50dp">
-        <ImageView
-            android:paddingLeft="30dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:srcCompat="@mipmap/running"
-            android:id="@+id/imageView6" />
-        <TextView
-            android:text="36:12"
-            android:gravity="center"
-            android:padding="3dip" />
-    </TableRow>
+            <TextView
+                android:id="@+id/walkingTime"
+                android:text="00:00"
+                android:textSize="30dp"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:gravity="center"
+                android:padding="3dip" />
+        </TableRow>
 
-    <TableRow android:paddingTop="50dp">
-        <ImageView
-            android:paddingLeft="30dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:srcCompat="@mipmap/biking"
-            android:id="@+id/imageView7" />
-        <TextView
-            android:text="10:15"
-            android:gravity="center"
-            android:padding="3dip" />
-    </TableRow>
-</TableLayout>
+        <TableRow android:paddingTop="10dp">
+            <ImageView
+                android:paddingLeft="30dp"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                app:srcCompat="@mipmap/running"
+                android:id="@+id/imageView6" />
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="100dp"/>
+            <TextView
+                android:id="@+id/runningTime"
+                android:text="00:00"
+                android:textSize="30dp"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:gravity="center"
+                android:padding="3dip" />
+        </TableRow>
+
+        <TableRow android:paddingTop="10dp">
+            <ImageView
+                android:paddingLeft="30dp"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                app:srcCompat="@mipmap/biking"
+                android:id="@+id/imageView7" />
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="100dp"/>
+            <TextView
+                android:id="@+id/bikingTime"
+                android:text="00:00"
+                android:textSize="30dp"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:gravity="center"
+                android:padding="3dip" />
+        </TableRow>
+
+    </TableLayout>
+
+
+    <Button
+        android:text="Start Tracking"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/trackbutton"
+        android:layout_marginBottom="56dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="107dp"
+        android:layout_marginStart="107dp" />
+
+
+</RelativeLayout>
