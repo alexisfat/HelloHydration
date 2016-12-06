@@ -37,6 +37,7 @@ public class ExerciseTracker extends AppCompatActivity implements SensorEventLis
     private long secs,mins,hrs;
 
     //exercise activities enumerated
+    final int notMoving = 0;
     final int walking = 1;
     final int running = 2;
     final int biking = 3;
@@ -105,6 +106,8 @@ public class ExerciseTracker extends AppCompatActivity implements SensorEventLis
                     } else if (velocity > runningMax) {
                         //person is biking
                         activity = biking;
+                    } else if (velocity == 0) {
+                        activity = notMoving;
                     }
 
                     updateTimer(elapsedTime, activity);
@@ -199,6 +202,8 @@ public class ExerciseTracker extends AppCompatActivity implements SensorEventLis
 
         /* Setting the exercise times to include the elapsed time */
         switch(activity){
+            case 0:
+                break;
             case 1:
                 ((TextView)findViewById(R.id.walkingTime)).setText(hours + ":" + minutes + ":" + seconds);
                 break;
@@ -220,7 +225,7 @@ public class ExerciseTracker extends AppCompatActivity implements SensorEventLis
         float[] gravity = new float[3];
         float[] linear_acceleration = new float[3];
 
-        if (sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
+        if (sensor.getType() == Sensor.TYPE_LINEAR_ACCELERATION) {
 
             //alpha is calculated as t/ (t + dT) as taken from Android documentation
             final float alpha = 0.8f;
