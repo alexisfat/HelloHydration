@@ -15,11 +15,16 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Calendar;
+
 public class MainActivity extends AppCompatActivity {
     ImageButton imageButton;
     SharedPreferences settings;
     SharedPreferences.Editor editor;
-    int progress;
+    SharedPreferences progress;
+    int progress_percent;
+    double goalDouble;
+    int lastDay;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
             editor = prefs.edit();
             editor.putBoolean("firstTime", false);
             editor.commit();
+            lastDay = Calendar.getInstance().DAY_OF_WEEK;
         }
 
         //sets up progress display
@@ -52,31 +58,31 @@ public class MainActivity extends AppCompatActivity {
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                switch(progress){
+                switch(progress_percent){
                     case 0:
                         imageButton.setImageResource(R.drawable.drop25);
-                        progress = 25;
+                        progress_percent = 25;
                         break;
                     case 25:
                         imageButton.setImageResource(R.drawable.drop50);
-                        progress = 50;
+                        progress_percent = 50;
                         break;
                     case 50:
                         imageButton.setImageResource(R.drawable.drop75);
-                        progress = 75;
+                        progress_percent = 75;
                         break;
                     case 75:
                         imageButton.setImageResource(R.drawable.drop100);
-                        progress = 100;
+                        progress_percent = 100;
                         break;
                     case 100:
                         imageButton.setImageResource(R.drawable.drop0);
-                        progress = 0;
+                        progress_percent = 0;
                         Toast.makeText(getApplicationContext(), "Progress reset", Toast.LENGTH_SHORT).show();
                         break;
                 }
-                progressText.setText("Progress: " + (progress/100.0)*64 + " fl oz.");
-                editor.putInt("progress", progress);
+                progressText.setText("Progress: " + (progress_percent/100.0)*goalDouble + " fl oz.");
+                editor.putInt("progress", progress_percent);
                 editor.commit();
             }
         });
@@ -86,7 +92,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume(){
         super.onResume();
 
+        checkDayChange();
+
         /*
+            goal calculation:
             [weight] * 0.5oz + [minutes of exercise] * 12oz
             https://www.umsystem.edu/newscentral/totalrewards/2014/06/19/how-to-calculate-how-much-water-you-should-drink/
         */
@@ -96,8 +105,8 @@ public class MainActivity extends AppCompatActivity {
         String weightStr = settings.getString("weight","");
         if(weightStr.length() > 0) {    //user entered a weight
             //TODO: retrieve minutes of exercise
-            double goalDouble = Double.parseDouble(weightStr) * 0.5 + 0 * 12;
-            goalNum.setText(Double.toString(goalDouble));
+            goalDouble = Double.parseDouble(weightStr) * 0.5 + 0 * 12;
+            goalNum.setText(Double.toString(goalDouble) + " fl oz.");
             Toast.makeText(getApplicationContext(), "Goal updated!", Toast.LENGTH_SHORT).show();
         }  else {
             goalNum.setText("None set");
@@ -131,5 +140,13 @@ public class MainActivity extends AppCompatActivity {
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void checkDayChange() {
+        int today = Calendar.getInstance().DAY_OF_WEEK;
+        if(today != lastDay) {
+            //TODO: set up preferences and write progress and day
+        }
+        lastDay = today;
     }
 }
