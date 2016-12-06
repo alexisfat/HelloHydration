@@ -97,7 +97,7 @@ public class ExerciseTracker extends AppCompatActivity implements SensorEventLis
                     velocity = (userInitialAcceleration * 5);
 
                     //setting exercise activity based on velocity
-                    if (velocity > 0 && velocity < walkingMax) {
+                    if (velocity < walkingMax) {
                         //person is walking
                         activity = walking;
                     } else if (walkingMax < velocity && velocity < runningMax) {
