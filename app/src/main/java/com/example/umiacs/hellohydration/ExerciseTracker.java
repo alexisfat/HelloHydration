@@ -46,8 +46,8 @@ public class ExerciseTracker extends AppCompatActivity implements SensorEventLis
     //exercise velocity limits in meters/second
     //walking max velocity calculated based on assumption that person can walk no faster than 4mph
     private double walkingMax = 1.78816;
-    //running max velocity calculated based on assumption that person can walk no faster than 15.6586mph
-    private double runningMax = 7;
+    //running max velocity calculated based on assumption that person will run at a max speed of 9.6mph
+    private double runningMax = 4.29;
 
     //Velocity as calculated from accelerometer and time elapsed
     private double velocity = 0;
@@ -98,13 +98,13 @@ public class ExerciseTracker extends AppCompatActivity implements SensorEventLis
                     //setting exercise activity based on velocity
                     if (velocity < walkingMax) {
                         //person is walking
-                        activity = 1;
+                        activity = walking;
                     } else if (walkingMax < velocity && velocity < runningMax) {
                         //person is running
-                        activity = 2;
+                        activity = running;
                     } else if (velocity > runningMax) {
                         //person is biking
-                        activity = 3;
+                        activity = biking;
                     }
 
                     updateTimer(elapsedTime, activity);
@@ -239,9 +239,9 @@ public class ExerciseTracker extends AppCompatActivity implements SensorEventLis
                 gravity[1] = alpha * (1 - alpha) * y;
                 gravity[2] = alpha * (1 - alpha) * z;
 
-                linear_acceleration[0] = x - gravity[0];
-                linear_acceleration[1] = y - gravity[1];
-                linear_acceleration[2] = z - gravity[2];
+                linear_acceleration[0] = Math.abs(x - gravity[0]);
+                linear_acceleration[1] = Math.abs(y - gravity[1]);
+                linear_acceleration[2] = Math.abs(z - gravity[2]);
 
                 //assuming initial acceleration is the maximum of the x,y,z accelerations
                 //Accounting for various ways the user will hold their phone in space
