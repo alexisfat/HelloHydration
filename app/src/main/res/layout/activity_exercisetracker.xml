@@ -5,11 +5,7 @@
     android:layout_height="match_parent"
     android:stretchColumns="1">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/acc"
-        android:textSize="24sp" />
+
     <TableLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -17,14 +13,44 @@
         <TableRow android:paddingTop="80dp">
 
             <ImageView
+                android:paddingLeft="10dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                app:srcCompat="@mipmap/arrow"
+                android:id="@+id/arrow1" />
+
+            <TextView
+                android:id="@+id/currentDate"
+                android:paddingTop="35dp"
+                android:text="December, 9th 2016"
+                android:textSize="20dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="3dip" />
+
+            <ImageView
+                android:paddingLeft="30dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                app:srcCompat="@mipmap/arrow"
+                android:rotation="180"
+                android:id="@+id/arrow2" />
+
+        </TableRow>
+
+        <TableRow android:paddingTop="10dp">
+
+            <ImageView
                 android:paddingLeft="30dp"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 app:srcCompat="@mipmap/walking"
                 android:id="@+id/imageView5" />
+
             <TextView
-                android:layout_width="100dp"
-                android:layout_height="100dp"/>
+                android:layout_width="40dp"
+                android:layout_height="40dp"/>
 
             <TextView
                 android:id="@+id/walkingTime"
