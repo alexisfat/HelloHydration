@@ -104,9 +104,9 @@ public class MainActivity extends AppCompatActivity {
         settings = getSharedPreferences("Settings", Context.MODE_PRIVATE);
         String weightStr = settings.getString("weight","");
         exerciseTracker = getSharedPreferences("exerciseTracker", Context.MODE_PRIVATE);
-        long mins = exerciseTracker.getLong("minutesWalking", 0) +
-                exerciseTracker.getLong("minutesRunning", 0) +
-                exerciseTracker.getLong("minutesBiking", 0);
+        long mins = exerciseTracker.getInt("minutesWalking", 0) +
+                exerciseTracker.getInt("minutesRunning", 0) +
+                exerciseTracker.getInt("minutesBiking", 0);
         if(weightStr.length() > 0) {    //user entered a weight
             goalDouble = Double.parseDouble(weightStr) * 0.5 + mins * 12;
             goalNum.setText(Double.toString(goalDouble) + " fl oz.");

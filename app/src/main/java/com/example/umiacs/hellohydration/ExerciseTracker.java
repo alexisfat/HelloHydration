@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Timer;
 
@@ -45,15 +46,15 @@ public class ExerciseTracker extends AppCompatActivity implements SensorEventLis
     private int activity = 0;
 
     //exercise velocity limits in meters/second
-    //walking max velocity calculated based on assumption that person can walk no faster than 4mph
-    private double walkingMax = 1.78816;
+    //walking max velocity calculated based on assumption that person can walk no faster than 4.5mph
+    private double walkingMax = 2;
     //running max velocity calculated based on assumption that person will run at a max speed of 9.6mph
     private double runningMax = 4.29;
 
     //Velocity as calculated from accelerometer and time elapsed
     private double velocity = 0;
 
-    private double userInitialAcceleration;
+    private double userInitialAcceleration = -1;
 
     //Setting up fields for android accelerometer sensor
     private SensorManager sensorManager;
@@ -73,7 +74,6 @@ public class ExerciseTracker extends AppCompatActivity implements SensorEventLis
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
-
 
         final Button trackingButton = (Button) findViewById(R.id.trackbutton);
 
@@ -96,6 +96,9 @@ public class ExerciseTracker extends AppCompatActivity implements SensorEventLis
                     //calculating user's initial velocity based on acceleration in first 5 seconds
                     velocity = (userInitialAcceleration * 5);
 
+                    if(velocity >= 0){
+                        activity = walking;
+                    }
                     //setting exercise activity based on velocity
                     if (velocity < walkingMax) {
                         //person is walking
@@ -116,9 +119,9 @@ public class ExerciseTracker extends AppCompatActivity implements SensorEventLis
                     SharedPreferences.Editor editor = exerciseTracker.edit();
 
                     //store inputs
-                    editor.putLong("minutesWalking", minutesWalking);
-                    editor.putLong("minutesRunning", minutesRunning);
-                    editor.putLong("minutesBiking", minutesBiking);
+                    editor.putInt("minutesWalking", minutesWalking);
+                    editor.putInt("minutesRunning", minutesRunning);
+                    editor.putInt("minutesBiking", minutesBiking);
                     editor.commit();
 
                     //reset booleans until next time user starts tracking again
@@ -198,7 +201,7 @@ public class ExerciseTracker extends AppCompatActivity implements SensorEventLis
         if(milliseconds.length()<=1){
             milliseconds = "00";
         }
-        milliseconds = milliseconds.substring(milliseconds.length()-3, milliseconds.length()-2);
+        milliseconds = milliseconds.substring(milliseconds.length()-2, milliseconds.length()-1);
 
         /* Setting the exercise times to include the elapsed time */
         switch(activity){
@@ -225,8 +228,8 @@ public class ExerciseTracker extends AppCompatActivity implements SensorEventLis
         float[] gravity = new float[3];
         float[] linear_acceleration = new float[3];
 
-        if (sensor.getType() == Sensor.TYPE_LINEAR_ACCELERATION) {
-
+       // if (sensor.getType() == Sensor.TYPE_LINEAR_ACCELERATION) {
+        if (sensor.getType() == Sensor.TYPE_LINEAR_ACCELERATION || true) {
             //alpha is calculated as t/ (t + dT) as taken from Android documentation
             final float alpha = 0.8f;
 
@@ -258,6 +261,7 @@ public class ExerciseTracker extends AppCompatActivity implements SensorEventLis
 
                 accTaken = true;
             }
+
         }
     }
 
