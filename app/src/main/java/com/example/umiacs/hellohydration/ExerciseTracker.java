@@ -9,6 +9,7 @@ import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -27,16 +28,28 @@ public class ExerciseTracker extends AppCompatActivity implements SensorEventLis
 
     //fields tracking user's exercise time
     //will be accessed by main activity to calculate how much water should be consumed
+    public int secondsWalking = 0;
     public  int minutesWalking = 0;
+    public int hoursWalking = 0;
+    public int secondsRunning = 0;
     public int minutesRunning = 0;
+    public int hoursRunning = 0;
+    public int secondsBiking = 0;
     public int minutesBiking = 0;
+    public int hoursBiking = 0;
     private Boolean tracking = false;
+
+    private TextView tempTextView; //Temporary TextView
+    private Button tempBtn; //Temporary Button
+
 
     private Handler mHandler = new Handler();
     private long startTime;
     private long elapsedTime;
+    private final int REFRESH_RATE = 1000;
     private String hours,minutes,seconds,milliseconds;
-    private long secs,mins,hrs;
+    private long secs,mins,hrs, msecs;
+    private boolean stopped = false;
 
     //exercise activities enumerated
     final int notMoving = 0;
@@ -85,15 +98,19 @@ public class ExerciseTracker extends AppCompatActivity implements SensorEventLis
                 if (!tracking){
                     tracking = true;
                     trackingButton.setImageResource(R.drawable.ic_pause_circle_outline_black_24dp);
+                    ((TextView)findViewById(R.id.timer)).setVisibility(View.VISIBLE);
                             //setText("Stop Tracking");
 
                     //getting initial time to calculate elapsed exercise time
                     startTime = System.currentTimeMillis();
+
+                    mHandler.removeCallbacks(startTimer);
+                    mHandler.postDelayed(startTimer, 0);
                 } else {
                     trackingButton.setImageResource(R.drawable.ic_play_circle_filled_black_24dp);
 
                     //timing activity
-                    elapsedTime = System.currentTimeMillis() - startTime;
+                    //elapsedTime = System.currentTimeMillis() - startTime;
 
                     //calculating user's initial velocity based on acceleration in first 5 seconds
                     velocity = (userInitialAcceleration * 5);
@@ -115,7 +132,7 @@ public class ExerciseTracker extends AppCompatActivity implements SensorEventLis
                         activity = notMoving;
                     }
 
-                    updateTimer(elapsedTime, activity);
+                    updateActivityTimer(activity);
 
                     //share updated exercise times with the rest of the applications
                     SharedPreferences.Editor editor = exerciseTracker.edit();
@@ -125,6 +142,9 @@ public class ExerciseTracker extends AppCompatActivity implements SensorEventLis
                     editor.putInt("minutesRunning", minutesRunning);
                     editor.putInt("minutesBiking", minutesBiking);
                     editor.commit();
+
+                    ((TextView)findViewById(R.id.timer)).setVisibility(View.GONE);
+                    ((TextView)findViewById(R.id.timer)).setText("00:00:00");
 
                     //reset booleans until next time user starts tracking again
                     tracking = false;
@@ -139,21 +159,8 @@ public class ExerciseTracker extends AppCompatActivity implements SensorEventLis
 
     //Majority of method code obtained from
     //http://www.shawnbe.com/index.php/tutorial/tutorial-3-a-simple-stopwatch-lets-add-the-code/
-    private void updateTimer (float elapsedTime, int activity){
-        float time = 0;
+    private void updateTimer (float time){
 
-        //the time displayed will account for the elapsed time for the most recent exercise
-        switch(activity){
-            case 1:
-                time = minutesWalking + elapsedTime;
-                break;
-            case 2:
-                time = minutesRunning + elapsedTime;
-                break;
-            case 3:
-                time = minutesBiking + elapsedTime;
-                break;
-        }
 
         secs = (long)(time/1000);
         mins = (long)((time/1000)/60);
@@ -200,27 +207,120 @@ public class ExerciseTracker extends AppCompatActivity implements SensorEventLis
         if(milliseconds.length()==2){
             milliseconds = "0"+milliseconds;
         }
-        if(milliseconds.length()<=1){
-            milliseconds = "00";
-        }
-        milliseconds = milliseconds.substring(milliseconds.length()-2, milliseconds.length()-1);
+
+        //if(milliseconds.length()<=1){
+        //    milliseconds = "00";
+        //}
+        //milliseconds = milliseconds.substring(milliseconds.length()-2, milliseconds.length()-1);
+
+        /* Setting the timer text to the elapsed time */
+        ((TextView)findViewById(R.id.timer)).setText(hours + ":" + minutes + ":" + seconds);
+        //((TextView)findViewById(R.id.timerMs)).setText("." + milliseconds);
+
+    }
+
+    private void updateActivityTimer (int activity){
+
+        secs = (long)(elapsedTime/1000);
+        long totalSeconds = secs;
+        mins = (long)((elapsedTime/1000)/60);
+
+        hrs = (long)(((elapsedTime/1000)/60)/60);
+
+        String updateMins = "";
+        String updateSec = "";
+        String updateHr = "";
 
         /* Setting the exercise times to include the elapsed time */
         switch(activity){
+
             case 0:
                 break;
             case 1:
-                ((TextView)findViewById(R.id.walkingTime)).setText(hours + ":" + minutes + ":" + seconds);
+                secondsWalking += totalSeconds;
+                minutesWalking += (secondsWalking/60);
+                hoursWalking += hrs;
+
+                updateMins = getCombinedMinutes(minutesWalking);
+                updateSec = getCombinedSeconds(secondsWalking);
+                updateHr = getCombinedSeconds(hoursWalking);
+
+                ((TextView)findViewById(R.id.walkingTime)).setText(updateHr + ":" + updateMins + ":" + updateSec);
                 break;
             case 2:
-                ((TextView)findViewById(R.id.runningTime)).setText(hours + ":" + minutes + ":" + seconds);
+                secondsRunning += totalSeconds;
+                minutesRunning += (secondsRunning/60);
+                hoursBiking += hrs;
+
+                updateMins = getCombinedMinutes(minutesRunning);
+                updateSec = getCombinedSeconds(secondsRunning);
+                updateHr = getCombinedSeconds(hoursWalking);
+
+                ((TextView)findViewById(R.id.runningTime)).setText(updateHr + ":" + updateMins + ":" + updateSec);
                 break;
             case 3:
-                ((TextView)findViewById(R.id.bikingTime)).setText(hours + ":" + minutes + ":" + seconds);
+                secondsBiking += totalSeconds;
+                minutesBiking += (secondsBiking/60);
+                hoursBiking += hrs;
+
+                updateMins = getCombinedMinutes(minutesBiking);
+                updateSec = getCombinedSeconds(secondsBiking);
+                updateHr = getCombinedSeconds(hoursWalking);
+
+                ((TextView)findViewById(R.id.bikingTime)).setText(updateHr + ":" + updateMins + ":" + updateSec);
                 break;
         }
-
     }
+
+    private String getCombinedSeconds(long existingActivitySeconds) {
+        long totalSecs = (existingActivitySeconds) % 60;
+        seconds=String.valueOf(totalSecs);
+        if(totalSecs == 0){
+            seconds = "00";
+        }
+        if(totalSecs <10 && totalSecs > 0){
+            seconds = "0"+seconds;
+        }
+
+        return seconds;
+    }
+
+    private String getCombinedMinutes(long existingActivityMinutes) {
+        /* Convert the minutes to String and format the String */
+
+        long totalMins = (existingActivityMinutes) % 60;
+
+        minutes=String.valueOf(totalMins);
+        if(totalMins == 0){
+            minutes = "00";
+        }
+        if(totalMins <10 && totalMins > 0){
+            minutes = "0"+minutes;
+        }
+
+        return minutes;
+    }
+
+    private String getCombinedHours(long existingActivityHours) {
+
+        hours=String.valueOf(existingActivityHours);
+        if(existingActivityHours == 0){
+            hours = "00";
+        }
+        if(existingActivityHours <10 && existingActivityHours > 0){
+            hours = "0"+hours;
+        }
+
+        return hours;
+    }
+
+    private Runnable startTimer = new Runnable() {
+        public void run() {
+            elapsedTime = System.currentTimeMillis() - startTime;
+            updateTimer(elapsedTime);
+            mHandler.postDelayed(this,REFRESH_RATE);
+        }
+    };
 
     //Sensor code based on Android developer page
     //https://developer.android.com/reference/android/hardware/SensorEvent.html#values
@@ -231,7 +331,7 @@ public class ExerciseTracker extends AppCompatActivity implements SensorEventLis
         float[] linear_acceleration = new float[3];
 
        // if (sensor.getType() == Sensor.TYPE_LINEAR_ACCELERATION) {
-        if (sensor.getType() == Sensor.TYPE_LINEAR_ACCELERATION || true) {
+        if (sensor.getType() == Sensor.TYPE_LINEAR_ACCELERATION) {
             //alpha is calculated as t/ (t + dT) as taken from Android documentation
             final float alpha = 0.8f;
 
