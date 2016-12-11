@@ -8,6 +8,7 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -42,6 +43,7 @@ public class ExerciseTracker extends AppCompatActivity implements SensorEventLis
     private TextView tempTextView; //Temporary TextView
     private Button tempBtn; //Temporary Button
 
+    private long _lastTimeAccelSenorChangeInMs = -1;
 
     private Handler mHandler = new Handler();
     private long startTime;
@@ -330,12 +332,15 @@ public class ExerciseTracker extends AppCompatActivity implements SensorEventLis
         float[] gravity = new float[3];
         float[] linear_acceleration = new float[3];
 
-       // if (sensor.getType() == Sensor.TYPE_LINEAR_ACCELERATION) {
-        if (sensor.getType() == Sensor.TYPE_LINEAR_ACCELERATION) {
+       switch(sensorEvent.sensor.getType()){
+           case Sensor.TYPE_ACCELEROMETER:
+                if(_lastTimeAccelSenorChangeInMs == -1){
+                    _lastTimeAccelSenorChangeInMs = SystemClock.elapsedRealtime();
+                }
             //alpha is calculated as t/ (t + dT) as taken from Android documentation
             final float alpha = 0.8f;
 
-            long curTime = System.currentTimeMillis();
+               long curTime = System.currentTimeMillis();
 
             if (((curTime - lastUpdate) > 5000) && !accTaken && tracking) {
                 float x = sensorEvent.values[0];
@@ -362,7 +367,13 @@ public class ExerciseTracker extends AppCompatActivity implements SensorEventLis
                 userInitialAcceleration = Math.max(temp, linear_acceleration[2]);
 
                 accTaken = true;
+
+                Log.d("X", Float.toString(linear_acceleration[0]));
+                Log.d("Y", Float.toString(linear_acceleration[1]));
+                Log.d("Z", Float.toString(linear_acceleration[2]));
+
             }
+               _lastTimeAccelSenorChangeInMs = curTime;
 
         }
     }
