@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 
@@ -146,6 +147,13 @@ public class BarGraph extends AppCompatActivity /*implements OnChartValueSelecte
                         TextView walkingTime = (TextView) findViewById(R.id.walkingTime);
                         TextView runningTime = (TextView) findViewById(R.id.runningTime);
                         TextView date = (TextView) findViewById(R.id.currentDate);
+                        /*Makes buttons invisible, so user does not click*/
+                        ImageView button  =(ImageView) findViewById(R.id.trackbutton);
+                        button.setVisibility(View.INVISIBLE);
+                        ImageView arrowRight = (ImageView) findViewById(R.id.arrow1);
+                        ImageView arrowLeft = (ImageView) findViewById(R.id.arrow2);
+                        arrowRight.setVisibility(View.INVISIBLE);
+                        arrowLeft.setVisibility(View.INVISIBLE);
                         Log.d("TOUCHX",Float.toString(event.getX()));
                         if (event.getX() <= 144.4) {
                             date.setText("Sun., Dec 4th");
