@@ -103,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
         settings = getSharedPreferences("Settings", Context.MODE_PRIVATE);
         String weightStr = settings.getString("weight","");
         exerciseTracker = getSharedPreferences("exerciseTracker", Context.MODE_PRIVATE);
-        long mins = exerciseTracker.getInt("minutesWalking", 0) +
+        int mins = exerciseTracker.getInt("minutesWalking", 0) +
                 exerciseTracker.getInt("minutesRunning", 0) +
                 exerciseTracker.getInt("minutesBiking", 0);
         if(weightStr.length() > 0) {    //user entered a weight
