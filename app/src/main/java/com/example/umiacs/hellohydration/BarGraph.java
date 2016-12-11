@@ -1,9 +1,15 @@
 package com.example.umiacs.hellohydration;
 
+
+import android.content.Intent;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.MotionEvent;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 
 import com.github.mikephil.charting.charts.BarChart;
@@ -16,9 +22,7 @@ import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
-import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
-import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.api.GoogleApiClient;
 
 
@@ -31,7 +35,7 @@ import java.util.ArrayList;
  *
  */
 
-public class BarGraph extends AppCompatActivity {
+public class BarGraph extends AppCompatActivity /*implements OnChartValueSelectedListener*/ {
     BarChart barChart;
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
@@ -62,7 +66,9 @@ public class BarGraph extends AppCompatActivity {
         /*This created the data set to be plotted,
         * if legend was showed this would display water consumption*/
         BarDataSet barDataSet = new BarDataSet(barEntries, "Water Consumption");
+        barDataSet.setHighlightEnabled(true);
         BarData barData = new BarData(barDataSet);
+
         /*Makes all the bars the same size*/
         barChart.setFitBars(true);
         barChart.setData(barData);
@@ -70,9 +76,11 @@ public class BarGraph extends AppCompatActivity {
         /*Hides the legend because only displaying one measure*/
         Legend legend = barChart.getLegend();
         legend.setEnabled(false);
+        barChart.setHighlightFullBarEnabled(true);
 
         /*Allows users to pitch to zoom*/
         barChart.setScaleEnabled(true);
+        barChart.setTouchEnabled(true);
         /*Gets the xAxis*/
         XAxis xAxis = barChart.getXAxis();
         /*Changes the numbers on the xAxis to days of the week
@@ -88,25 +96,27 @@ public class BarGraph extends AppCompatActivity {
         xAxis.setDrawGridLines(false);
         xAxis.setAxisMinimum(0f);
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setTextColor(Color.GRAY);
+        xAxis.setTextSize(12f);
 
         /*Y-Axis options
         * Hide the right side of the axis
         * Set the minimum value to 0
         * */
         YAxis yLeftAxis = barChart.getAxisLeft();
-        YAxis yRightAxis = barChart.getAxisRight();
+        //YAxis yRightAxis = barChart.getAxisRight();
         barChart.getAxisRight().setEnabled(false);
         yLeftAxis.setAxisMinimum(0f);
         /*Add a limit line to designated reached goals
         * Options:
         *  Change text color to navy
-        *  Make text size 10
+        *  Make text size 14
         *  Make line color navy
         * */
         LimitLine goal = new LimitLine(10f, "Goal Reached!");
         goal.setLineWidth(3f);
         goal.setTextColor(Color.rgb(4,50,124));
-        goal.setTextSize(10f);
+        goal.setTextSize(14f);
         goal.setLineColor(Color.rgb(4,50,124));
         yLeftAxis.addLimitLine(goal);
 
@@ -114,9 +124,83 @@ public class BarGraph extends AppCompatActivity {
         yLeftAxis.setDrawAxisLine(true);
         yLeftAxis.setLabelCount(10, true);
         yLeftAxis.setDrawGridLines(true); //  grid lines
+        yLeftAxis.setTextColor(Color.GRAY);
+        yLeftAxis.setTextSize(14f);
         //yRightAxis.setDrawGridLines(false); // no grid lines
         /*Take away description*/
         barChart.setDescription(null);
+        //set a listener if bars are clicked
+        barChart.setHighlightPerTapEnabled(true);
+        barChart.setClickable(true);
+
+
+        /*Set values for exercise based on where click occurs,
+         * i.e. what bar/day of the week
+         * */
+        barChart.setOnTouchListener(new View.OnTouchListener(){
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        setContentView(R.layout.activity_exercisetracker);
+                        TextView bikingTime = (TextView) findViewById(R.id.bikingTime);
+                        TextView walkingTime = (TextView) findViewById(R.id.walkingTime);
+                        TextView runningTime = (TextView) findViewById(R.id.runningTime);
+                        TextView date = (TextView) findViewById(R.id.currentDate);
+                        /*Makes buttons invisible, so user does not click*/
+                        ImageView button  =(ImageView) findViewById(R.id.trackbutton);
+                        button.setVisibility(View.INVISIBLE);
+                        ImageView arrowRight = (ImageView) findViewById(R.id.arrow1);
+                        ImageView arrowLeft = (ImageView) findViewById(R.id.arrow2);
+                        arrowRight.setVisibility(View.INVISIBLE);
+                        arrowLeft.setVisibility(View.INVISIBLE);
+                        Log.d("TOUCHX",Float.toString(event.getX()));
+                        if (event.getX() <= 144.4) {
+                            date.setText("Sun., Dec 4th");
+                            runningTime.setText("00:00");
+                            bikingTime.setText("00:15");
+                            walkingTime.setText("01:00");
+                        } else if(event.getX() > 144.4 && event.getX() <= 216.5) {
+                            date.setText("Mon., Dec 7th");
+                            runningTime.setText("01:00");
+                            bikingTime.setText("00:25");
+                            walkingTime.setText("02:00");
+                        } else if(event.getX() > 216.5 && event.getX() <= 284.52) {
+                            date.setText("Tues., Dec 7th");
+                            runningTime.setText("00:00");
+                            bikingTime.setText("00:35");
+                            walkingTime.setText("01:00");
+                        }else if(event.getX() > 284.52 && event.getX() <= 353.6){
+                            date.setText("Wed., Dec 7th");
+                            runningTime.setText("00:45");
+                            bikingTime.setText("01:45");
+                            walkingTime.setText("00:30");
+                        } else if (event.getX() >= 353.6 && event.getX() <= 419.69) {
+                            date.setText("Thurs., Dec 9th");
+                            runningTime.setText("00:45");
+                            bikingTime.setText("00:35");
+                            walkingTime.setText("03:00");
+                        } else if (event.getX() >= 419.69 && event.getX() <= 487.79){
+                                date.setText("Fri., Dec 9th");
+                                runningTime.setText("01:25");
+                                bikingTime.setText("00:45");
+                                walkingTime.setText("02:00");
+                        } else {
+                            date.setText("Sat., Dec 10th");
+                            runningTime.setText("02:45");
+                            bikingTime.setText("00:15");
+                            walkingTime.setText("00:45");
+                        }
+                }
+
+                //Intent activityTracker = new Intent(BarGraph.this, ExerciseTracker.class);
+                //startActivity(activityTracker);
+
+            return true;
+
+            }
+        });
+
         /*since we are drawing the graph, call invalidate()*/
         barChart.invalidate();
 
@@ -126,41 +210,15 @@ public class BarGraph extends AppCompatActivity {
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
-    /**
-     * ATTENTION: This was auto-generated to implement the App Indexing API.
-     * See https://g.co/AppIndexing/AndroidStudio for more information.
-     */
-    public Action getIndexApiAction() {
-        Thing object = new Thing.Builder()
-                .setName("BarGraph Page") // TODO: Define a title for the content shown.
-                // TODO: Make sure this auto-generated URL is correct.
-                .setUrl(Uri.parse("http://[ENTER-YOUR-URL-HERE]"))
-                .build();
-        return new Action.Builder(Action.TYPE_VIEW)
-                .setObject(object)
-                .setActionStatus(Action.STATUS_TYPE_COMPLETED)
-                .build();
+    /*ensure that back after clicking a bar graph
+    will take you back to bargraph page*/
+    public void onBackPressed(){
+        super.onBackPressed();
+        startActivity(new Intent(BarGraph.this, BarGraph.class));
+        finish();
+
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client.connect();
-        AppIndex.AppIndexApi.start(client, getIndexApiAction());
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        AppIndex.AppIndexApi.end(client, getIndexApiAction());
-        client.disconnect();
-    }
     /*This private class allows us to change the x-Axis labels to days
     * of the week instead of numbers*/
     private class MyAxisFormatter implements IAxisValueFormatter {
