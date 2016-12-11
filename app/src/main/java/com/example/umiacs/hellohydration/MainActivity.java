@@ -47,7 +47,6 @@ public class MainActivity extends AppCompatActivity {
             editor = prefs.edit();
             editor.putBoolean("firstTime", false);
             editor.commit();
-            lastDay = Calendar.getInstance().DAY_OF_WEEK;
         }
 
         //sets up progress display
@@ -146,7 +145,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void checkDayChange() {
-        int today = Calendar.getInstance().DAY_OF_WEEK;
+        int today = Calendar.getInstance().DAY_OF_YEAR;
         if(today != lastDay) {
             //TODO: set up preferences and write progress and day
         }
