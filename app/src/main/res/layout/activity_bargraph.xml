@@ -6,16 +6,6 @@
     android:columnCount="3"
     android:baselineAligned="false">
 
-    <com.github.mikephil.charting.charts.BarChart
-        android:layout_width="303dp"
-        android:layout_marginTop="60dp"
-        android:layout_height="346dp"
-        android:id="@+id/bargraph"
-        android:layout_column="1"
-        android:layout_row="1"
-        android:layout_columnSpan="2"
-        android:layout_rowSpan="3" />
-
     <TextView
         android:text="Sun Dec 4 - Sat Dec 10"
         android:layout_width="238dp"
@@ -60,6 +50,16 @@
         android:layout_row="3"
         android:layout_marginTop="200dp"
         android:id="@+id/ounces" />
+
+    <com.github.mikephil.charting.charts.BarChart
+        android:layout_width="318dp"
+        android:layout_marginTop="60dp"
+        android:layout_height="376dp"
+        android:id="@+id/bargraph"
+        android:layout_column="1"
+        android:layout_row="1"
+        android:layout_columnSpan="2"
+        android:layout_rowSpan="3" />
 
 
 </GridLayout>
