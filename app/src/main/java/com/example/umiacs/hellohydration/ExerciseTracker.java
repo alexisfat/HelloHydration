@@ -11,6 +11,7 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -75,7 +76,7 @@ public class ExerciseTracker extends AppCompatActivity implements SensorEventLis
         accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
 
-        final Button trackingButton = (Button) findViewById(R.id.trackbutton);
+        final ImageButton trackingButton = (ImageButton) findViewById(R.id.trackbutton);
 
         trackingButton.setOnClickListener(new View.OnClickListener()
         {
@@ -83,12 +84,13 @@ public class ExerciseTracker extends AppCompatActivity implements SensorEventLis
             {
                 if (!tracking){
                     tracking = true;
-                    trackingButton.setText("Stop Tracking");
+                    trackingButton.setImageResource(R.drawable.ic_pause_circle_outline_black_24dp);
+                            //setText("Stop Tracking");
 
                     //getting initial time to calculate elapsed exercise time
                     startTime = System.currentTimeMillis();
                 } else {
-                    trackingButton.setText("Start Tracking");
+                    trackingButton.setImageResource(R.drawable.ic_play_circle_filled_black_24dp);
 
                     //timing activity
                     elapsedTime = System.currentTimeMillis() - startTime;
