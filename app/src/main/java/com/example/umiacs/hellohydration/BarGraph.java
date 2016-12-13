@@ -37,6 +37,7 @@ import java.util.ArrayList;
 
 public class BarGraph extends AppCompatActivity /*implements OnChartValueSelectedListener*/ {
     BarChart barChart;
+    private int checkView;
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -51,6 +52,8 @@ public class BarGraph extends AppCompatActivity /*implements OnChartValueSelecte
          */
         barChart = (BarChart) findViewById(R.id.bargraph);
         barChart.setNoDataText("Start drinking!");
+
+        checkView = 0;
 
         /*Varibale created to contain all the entries in this graph
         * Hard coded some data for the prototype
@@ -142,6 +145,7 @@ public class BarGraph extends AppCompatActivity /*implements OnChartValueSelecte
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
+                        checkView = 1;
                         setContentView(R.layout.activity_exercisetracker);
                         TextView bikingTime = (TextView) findViewById(R.id.bikingTime);
                         TextView walkingTime = (TextView) findViewById(R.id.walkingTime);
@@ -155,32 +159,32 @@ public class BarGraph extends AppCompatActivity /*implements OnChartValueSelecte
                         arrowRight.setVisibility(View.INVISIBLE);
                         arrowLeft.setVisibility(View.INVISIBLE);
                         Log.d("TOUCHX",Float.toString(event.getX()));
-                        if (event.getX() <= 144.4) {
+                        if (event.getX() <= 222.31) {
                             date.setText("Sun., Dec 4th");
                             runningTime.setText("00:00");
                             bikingTime.setText("00:15");
                             walkingTime.setText("01:00");
-                        } else if(event.getX() > 144.4 && event.getX() <= 216.5) {
+                        } else if(event.getX() > 222.31 && event.getX() <= 325.41) {
                             date.setText("Mon., Dec 7th");
                             runningTime.setText("01:00");
                             bikingTime.setText("00:25");
                             walkingTime.setText("02:00");
-                        } else if(event.getX() > 216.5 && event.getX() <= 284.52) {
+                        } else if(event.getX() > 321.41 && event.getX() <= 427.48) {
                             date.setText("Tues., Dec 7th");
                             runningTime.setText("00:00");
                             bikingTime.setText("00:35");
                             walkingTime.setText("01:00");
-                        }else if(event.getX() > 284.52 && event.getX() <= 353.6){
+                        }else if(event.getX() > 427.48 && event.getX() <= 529.59){
                             date.setText("Wed., Dec 7th");
                             runningTime.setText("00:45");
                             bikingTime.setText("01:45");
                             walkingTime.setText("00:30");
-                        } else if (event.getX() >= 353.6 && event.getX() <= 419.69) {
+                        } else if (event.getX() >= 529.59 && event.getX() <= 628.66) {
                             date.setText("Thurs., Dec 9th");
                             runningTime.setText("00:45");
                             bikingTime.setText("00:35");
                             walkingTime.setText("03:00");
-                        } else if (event.getX() >= 419.69 && event.getX() <= 487.79){
+                        } else if (event.getX() >= 628.66 && event.getX() <= 734.76){
                                 date.setText("Fri., Dec 9th");
                                 runningTime.setText("01:25");
                                 bikingTime.setText("00:45");
@@ -212,10 +216,19 @@ public class BarGraph extends AppCompatActivity /*implements OnChartValueSelecte
 
     /*ensure that back after clicking a bar graph
     will take you back to bargraph page*/
+    @Override
     public void onBackPressed(){
         super.onBackPressed();
-        startActivity(new Intent(BarGraph.this, BarGraph.class));
-        finish();
+        if (checkView == 1){
+            startActivity(new Intent(BarGraph.this, BarGraph.class));
+            finish();
+        }
+
+        //i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        //i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+        //startActivity(new Intent(BarGraph.this, BarGraph.class));
+        //finish();
 
     }
 
