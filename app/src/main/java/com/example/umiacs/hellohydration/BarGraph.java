@@ -154,10 +154,12 @@ public class BarGraph extends AppCompatActivity /*implements OnChartValueSelecte
                         /*Makes buttons invisible, so user does not click*/
                         ImageView button  =(ImageView) findViewById(R.id.trackbutton);
                         button.setVisibility(View.INVISIBLE);
-                        ImageView arrowRight = (ImageView) findViewById(R.id.arrow1);
-                        ImageView arrowLeft = (ImageView) findViewById(R.id.arrow2);
-                        arrowRight.setVisibility(View.INVISIBLE);
-                        arrowLeft.setVisibility(View.INVISIBLE);
+                       // ImageView arrowRight = (ImageView) findViewById(R.id.arrow1);
+                        //ImageView arrowLeft = (ImageView) findViewById(R.id.arrow2);
+                        //arrowRight.setVisibility(View.INVISIBLE);
+                        //arrowLeft.setVisibility(View.INVISIBLE);
+                        TextView timer = (TextView) findViewById(R.id.timer);
+                        timer.setVisibility(View.INVISIBLE);
                         Log.d("TOUCHX",Float.toString(event.getX()));
                         if (event.getX() <= 222.31) {
                             date.setText("Sun., Dec 4th");
