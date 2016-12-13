@@ -24,6 +24,16 @@
         android:layout_marginStart="12dp"
         android:layout_above="@+id/progressText" />
 
+    <TextView
+        android:text="0%"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/percentText"
+        android:textSize="48sp"
+        android:layout_alignParentTop="false"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="250dp" />
+
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"

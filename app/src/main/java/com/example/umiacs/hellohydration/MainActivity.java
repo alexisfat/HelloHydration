@@ -60,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
         settings = getSharedPreferences("Settings", Context.MODE_PRIVATE);
         editor = settings.edit();
         final TextView progressText = (TextView) findViewById(R.id.progressText);
+        final TextView percentText = (TextView) findViewById(R.id.percentText);
 
         // Get the Drawable custom_progressbar
         // set the drawable as progress drawable
@@ -87,21 +88,23 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
-                switch(progressBar.getProgress()){
+                int p = progressBar.getProgress();
+                int to = 0;
+                switch(p){
                     case 0:
-                        anim = new ProgressBarAnimation(progressBar, 0, 200);
+                        to = 200;
                         break;
                     case 200:
-                        anim = new ProgressBarAnimation(progressBar, 200, 400);
+                        to = 400;
                         break;
                     case 400:
-                        anim = new ProgressBarAnimation(progressBar, 400, 600);
+                        to = 600;
                         break;
                     case 600:
-                        anim = new ProgressBarAnimation(progressBar, 600, 800);
+                        to = 800;
                         break;
                     case 800:
-                        anim = new ProgressBarAnimation(progressBar, 800, 1000);
+                        to = 1000;
                         break;
                     case 1000:
                         break;
@@ -109,10 +112,16 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), "Progress reset" + progressBar.getProgress(), Toast.LENGTH_SHORT).show();
                         break;
                 }
-                progress_percent = progressBar.getProgress()/10;
-                anim.setDuration(600);
-                progressBar.startAnimation(anim);
+                if (p < 1000) {
+                    anim = new ProgressBarAnimation(progressBar, p, to);
+                    anim.setDuration(600);
+                    progressBar.startAnimation(anim);
+                }
+                progress_percent = to/10;
                 progressText.setText("Progress: " + (progress_percent/100.0)*goalDouble + " fl oz.");
+                String pText = "%";
+
+                percentText.setText(progress_percent + pText);
                 editor.putInt("progress", progress_percent);
                 editor.commit();
             }
