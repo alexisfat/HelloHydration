@@ -112,7 +112,7 @@ public class ExerciseTracker extends AppCompatActivity implements SensorEventLis
             {
                 if (!tracking){
                     tracking = true;
-                    trackingButton.setImageResource(R.drawable.ic_pause_circle_outline_black_24dp);
+                    trackingButton.setImageResource(R.drawable.ic_pause_circle_filled_black_24dp);
                     ((TextView)findViewById(R.id.timer)).setVisibility(View.VISIBLE);
                             //setText("Stop Tracking");
 
