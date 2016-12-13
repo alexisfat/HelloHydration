@@ -14,4 +14,8 @@
         android:id="@+id/action_exercisetracker"
         android:title="Exercise Tracker"/>
 
+    <item
+        android:id="@+id/action_mapsactivity"
+        android:title="Maps Activity"/>
+
 </menu>
