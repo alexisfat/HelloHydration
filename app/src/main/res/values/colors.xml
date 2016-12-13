@@ -7,4 +7,5 @@
     <color name="background">#fafafa</color>
     <color name="navyBlue">#1B4965</color>
     <color name="backgroundWhite">#EFF2F2</color>
+    <color name="colorToolbarText">#EAEAEA</color>
 </resources>
