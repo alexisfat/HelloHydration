@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item android:id="@+id/action_bargraph"
+        android:icon="@drawable/ic_equalizer_black_24dp"
+        app:showAsAction="always"
+        android:title="Bar Graph" />
+    <item android:id="@+id/action_exercisetracker"
+        android:icon="@drawable/ic_run_icon"
+        app:showAsAction="always"
+        android:title="Exercise Tracker" />
+    <item android:id="@+id/action_settings"
+        android:background="@android:color/transparent"
+        android:icon="@drawable/ic_settings_black_24dp"
+        app:showAsAction="always"
+        android:title="Settings" />
+</menu>

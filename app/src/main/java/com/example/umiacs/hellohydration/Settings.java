@@ -1,9 +1,12 @@
 package com.example.umiacs.hellohydration;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.content.SharedPreferences;
@@ -92,4 +95,28 @@ public class Settings extends AppCompatActivity {
         weightField.setText(weight);
     }
 
+    //sets up toolbar
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return true;
+    }
+
+    //handles selected toolbar menu option
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        Intent intent;
+        switch (id) {
+            case(R.id.action_bargraph):
+                intent = new Intent(Settings.this, BarGraph.class);
+                startActivity(intent);
+                break;
+            case(R.id.action_exercisetracker):
+                intent = new Intent(Settings.this, ExerciseTracker.class);
+                startActivity(intent);
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }

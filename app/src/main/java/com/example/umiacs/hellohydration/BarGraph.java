@@ -6,6 +6,8 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
@@ -250,4 +252,28 @@ public class BarGraph extends AppCompatActivity /*implements OnChartValueSelecte
         }
     }
 
+    //sets up toolbar
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return true;
+    }
+
+    //handles selected toolbar menu option
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        Intent intent;
+        switch (id) {
+            case(R.id.action_settings):
+                intent = new Intent(BarGraph.this, Settings.class);
+                startActivity(intent);
+                break;
+            case(R.id.action_exercisetracker):
+                intent = new Intent(BarGraph.this, ExerciseTracker.class);
+                startActivity(intent);
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }
