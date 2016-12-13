@@ -3,35 +3,24 @@ package com.example.umiacs.hellohydration;
 import android.Manifest;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.google.android.gms.common.api.GoogleApiClient;
-
-import java.util.Timer;
+import java.util.Arrays;
 
 /**
  * Created by alexandraboukhvalova on 12/3/16.
- * Location tracking code referenced from:
- * https://developer.android.com/guide/topics/location/strategies.html
  */
 
 public class ExerciseTracker extends AppCompatActivity implements SensorEventListener {
@@ -51,9 +40,6 @@ public class ExerciseTracker extends AppCompatActivity implements SensorEventLis
     public int hoursBiking = 0;
     private Boolean tracking = false;
 
-    private TextView tempTextView; //Temporary TextView
-    private Button tempBtn; //Temporary Button
-
     private long _lastTimeAccelSenorChangeInMs = -1;
 
     private Handler mHandler = new Handler();
@@ -72,14 +58,11 @@ public class ExerciseTracker extends AppCompatActivity implements SensorEventLis
     //exercise activity as recognized by accelerometer
     private int activity = 0;
 
-    //exercise velocity limits in meters/second
+    //exercise acceleration limits in meters/second^2
     //walking max velocity calculated based on assumption that person can walk no faster than 4.5mph
     private double walkingMax = 2;
     //running max velocity calculated based on assumption that person will run at a max speed of 9.6mph
-    private double runningMax = 4.29;
-
-    //Velocity as calculated from accelerometer and time elapsed
-    private double velocity = 0;
+    private double runningMax = 5;
 
     private double userInitialAcceleration = -1;
 
@@ -90,8 +73,6 @@ public class ExerciseTracker extends AppCompatActivity implements SensorEventLis
     private long lastUpdate = 0;
     //Boolean to keep track of when the acceleration after 5 seconds has been recorded
     private boolean accTaken = false;
-
-    long distanceTravelled;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,36 +99,31 @@ public class ExerciseTracker extends AppCompatActivity implements SensorEventLis
 
                     //getting initial time to calculate elapsed exercise time
                     startTime = System.currentTimeMillis();
+                    lastUpdate = startTime;
 
                     mHandler.removeCallbacks(startTimer);
                     mHandler.postDelayed(startTimer, 0);
                 } else {
                     trackingButton.setImageResource(R.drawable.ic_play_circle_filled_black_24dp);
 
-                    //timing activity
-                    //elapsedTime = System.currentTimeMillis() - startTime;
-
-                    //calculating user's initial velocity based on acceleration in first 5 seconds
-                    velocity = (userInitialAcceleration * 5);
-
                     /*distanceTravelled = calculateDistance(longitudeStart, latitudeStart,
                             longitudeStop, latitudeStop);
                     velocity = distanceTravelled / elapsedTime;*/
 
-                    if(velocity >= 0){
+                    if(userInitialAcceleration >= 0){
                         activity = walking;
                     }
                     //setting exercise activity based on velocity
-                    if (velocity < walkingMax) {
+                    if (userInitialAcceleration < walkingMax) {
                         //person is walking
                         activity = walking;
-                    } else if (walkingMax < velocity && velocity < runningMax) {
+                    } else if (walkingMax < userInitialAcceleration && userInitialAcceleration < runningMax) {
                         //person is running
                         activity = running;
-                    } else if (velocity > runningMax) {
+                    } else if (userInitialAcceleration > runningMax) {
                         //person is biking
                         activity = biking;
-                    } else if (velocity == 0) {
+                    } else if (userInitialAcceleration == 0) {
                         activity = notMoving;
                     }
 
@@ -165,7 +141,7 @@ public class ExerciseTracker extends AppCompatActivity implements SensorEventLis
                     editor.putInt("minutesBiking", minutesBiking);
                     editor.commit();
 
-                    ((TextView)findViewById(R.id.timer)).setVisibility(View.GONE);
+                    (findViewById(R.id.timer)).setVisibility(View.GONE);
                     ((TextView)findViewById(R.id.timer)).setText("00:00:00");
 
                     //reset booleans until next time user starts tracking again
@@ -222,23 +198,8 @@ public class ExerciseTracker extends AppCompatActivity implements SensorEventLis
             hours = "0"+hours;
         }
 
-    	/* Although we are not using milliseconds on the timer in this example
-    	 * I included the code in the event that you wanted to include it on your own
-    	 */
-        milliseconds = String.valueOf((long)time);
-        if(milliseconds.length()==2){
-            milliseconds = "0"+milliseconds;
-        }
-
-        //if(milliseconds.length()<=1){
-        //    milliseconds = "00";
-        //}
-        //milliseconds = milliseconds.substring(milliseconds.length()-2, milliseconds.length()-1);
-
         /* Setting the timer text to the elapsed time */
         ((TextView)findViewById(R.id.timer)).setText(hours + ":" + minutes + ":" + seconds);
-        //((TextView)findViewById(R.id.timerMs)).setText("." + milliseconds);
-
     }
 
     private void updateActivityTimer (int activity){
@@ -344,32 +305,14 @@ public class ExerciseTracker extends AppCompatActivity implements SensorEventLis
         }
     };
 
-    /* To calculate distance between two points.
-    * Code obtained from:
-    * http://stackoverflow.com/questions/20398898/how-to-get-speed-in-android-app-using-location
-    * -or-accelerometer-or-some-other-wa*/
-    private static long calculateDistance(double lat1, double lng1, double lat2, double lng2) {
-        double dLat = Math.toRadians(lat2 - lat1);
-        double dLon = Math.toRadians(lng2 - lng1);
-        double a = Math.sin(dLat / 2) * Math.sin(dLat / 2)
-                + Math.cos(Math.toRadians(lat1))
-                * Math.cos(Math.toRadians(lat2)) * Math.sin(dLon / 2)
-                * Math.sin(dLon / 2);
-        double c = 2 * Math.asin(Math.sqrt(a));
-        long distanceInMeters = Math.round(6371000 * c);
-        return distanceInMeters;
-    }
-
     //Sensor code based on Android developer page
     //https://developer.android.com/reference/android/hardware/SensorEvent.html#values
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) {
         Sensor sensor = sensorEvent.sensor;
-        float[] gravity = new float[3];
-        float[] linear_acceleration = new float[3];
 
        switch(sensorEvent.sensor.getType()){
-           case Sensor.TYPE_ACCELEROMETER:
+           case Sensor.TYPE_LINEAR_ACCELERATION:
                 if(_lastTimeAccelSenorChangeInMs == -1){
                     _lastTimeAccelSenorChangeInMs = SystemClock.elapsedRealtime();
                 }
@@ -378,35 +321,35 @@ public class ExerciseTracker extends AppCompatActivity implements SensorEventLis
 
                long curTime = System.currentTimeMillis();
 
-            if (((curTime - lastUpdate) > 5000) && !accTaken && tracking) {
+            //take acceleration almost immediately after user presses tracking button
+            if (((curTime - lastUpdate) > 2000) && !accTaken && tracking) {
                 float x = sensorEvent.values[0];
                 float y = sensorEvent.values[1];
                 float z = sensorEvent.values[2];
 
                 long diffTime = (curTime - lastUpdate);
-                lastUpdate = curTime;
+                ///lastUpdate = curTime;
 
-                gravity[0] = alpha * (1 - alpha) * x;
-                gravity[1] = alpha * (1 - alpha) * y;
-                gravity[2] = alpha * (1 - alpha) * z;
-
-                linear_acceleration[0] = Math.abs(x - gravity[0]);
-                linear_acceleration[1] = Math.abs(y - gravity[1]);
-                linear_acceleration[2] = Math.abs(z - gravity[2]);
-
-                //assuming initial acceleration is the maximum of the x,y,z accelerations
+                //assuming initial acceleration is the maximum of the x,y,z accelerations aside from
+                //gravity
                 //Accounting for various ways the user will hold their phone in space
 
-                //for comparing max linear acceleration
+                //for comparing max linear acceleration aside from gravity
                 float temp = 0;
-                temp = Math.max(linear_acceleration[0], linear_acceleration[1]);
-                userInitialAcceleration = Math.max(temp, linear_acceleration[2]);
+                float[] accelerationVals = new float[3];
+                accelerationVals[0] = x;
+                accelerationVals[1] = y;
+                accelerationVals[2] = z;
+                Arrays.sort(accelerationVals);
+
+                //assuming gravity will always be largest value at around 9-11
+                userInitialAcceleration = accelerationVals[1];
 
                 accTaken = true;
 
-                Log.d("X", Float.toString(linear_acceleration[0]));
-                Log.d("Y", Float.toString(linear_acceleration[1]));
-                Log.d("Z", Float.toString(linear_acceleration[2]));
+                Log.d("X", Float.toString(x));
+                Log.d("Y", Float.toString(y));
+                Log.d("Z", Float.toString(z));
 
             }
                _lastTimeAccelSenorChangeInMs = curTime;
