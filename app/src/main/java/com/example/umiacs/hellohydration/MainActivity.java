@@ -20,6 +20,7 @@ import android.widget.Toast;
 import android.os.Handler;
 
 import java.util.Calendar;
+import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
     ImageButton imageButton;
@@ -88,8 +89,12 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
-                int p = progressBar.getProgress();
+                int p = progressBar.getProgress()/10;
                 int to = 0;
+                Random rand = new Random();
+                int  n = rand.nextInt(25) + 10;
+                //System.out.println(n);
+                /*
                 switch(p){
                     case 0:
                         to = 200;
@@ -112,13 +117,20 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), "Progress reset" + progressBar.getProgress(), Toast.LENGTH_SHORT).show();
                         break;
                 }
-                if (p < 1000) {
-                    anim = new ProgressBarAnimation(progressBar, p, to);
+                */
+                if (p < 100) {
+                    anim = new ProgressBarAnimation(progressBar, p*10, (p+n)*10);
                     anim.setDuration(600);
                     progressBar.startAnimation(anim);
                 }
-                progress_percent = to/10;
-                progressText.setText("Progress: " + (progress_percent/100.0)*goalDouble + " fl oz.");
+                progress_percent = p+n;
+                if(progress_percent > 100){
+                    progress_percent = 100;
+                }
+                double progtmp = (progress_percent/100.0)*goalDouble;
+                progtmp = (double)Math.round(progtmp * 10d) / 10d;
+
+                progressText.setText("Progress: " + progtmp + " fl oz.");
                 String pText = "%";
 
                 percentText.setText(progress_percent + pText);
