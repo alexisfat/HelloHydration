@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,6 +23,8 @@ import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity {
     ImageButton imageButton;
+
+    ImageView drop;
     SharedPreferences settings;
     SharedPreferences.Editor editor;
     SharedPreferences progress;
@@ -63,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
         final ProgressBar progressBar = (ProgressBar) findViewById(R.id.progressBar1);
         progressBar.setProgress(0);
         progressBar.setScaleY(63f);
-        progressBar.setScaleX(1.12f);
+        progressBar.setScaleX(1.05f);
         /*
         final Handler h = new Handler();
         final int delay = 50; //milliseconds
@@ -77,43 +80,44 @@ public class MainActivity extends AppCompatActivity {
             }
         }, delay);
         */
-        ProgressBarAnimation anim = new ProgressBarAnimation(progressBar, 0, 700);
-        anim.setDuration(5000);
-        progressBar.startAnimation(anim);
-        /*
-        imageButton = (ImageButton) findViewById(R.id.imageButton);
-        imageButton.setOnClickListener(new View.OnClickListener() {
+
+        drop = (ImageView) findViewById(R.id.imageView2);
+        drop.setOnClickListener(new View.OnClickListener() {
+            ProgressBarAnimation anim;
+
             @Override
             public void onClick(View view) {
-                switch(progress_percent){
+                switch(progressBar.getProgress()){
                     case 0:
-                        imageButton.setImageResource(R.drawable.drop25);
-                        progress_percent = 25;
+                        anim = new ProgressBarAnimation(progressBar, 0, 200);
                         break;
-                    case 25:
-                        imageButton.setImageResource(R.drawable.drop50);
-                        progress_percent = 50;
+                    case 200:
+                        anim = new ProgressBarAnimation(progressBar, 200, 400);
                         break;
-                    case 50:
-                        imageButton.setImageResource(R.drawable.drop75);
-                        progress_percent = 75;
+                    case 400:
+                        anim = new ProgressBarAnimation(progressBar, 400, 600);
                         break;
-                    case 75:
-                        imageButton.setImageResource(R.drawable.drop100);
-                        progress_percent = 100;
+                    case 600:
+                        anim = new ProgressBarAnimation(progressBar, 600, 800);
                         break;
-                    case 100:
-                        imageButton.setImageResource(R.drawable.drop0);
-                        progress_percent = 0;
-                        Toast.makeText(getApplicationContext(), "Progress reset", Toast.LENGTH_SHORT).show();
+                    case 800:
+                        anim = new ProgressBarAnimation(progressBar, 800, 1000);
+                        break;
+                    case 1000:
+                        break;
+                    default:
+                        Toast.makeText(getApplicationContext(), "Progress reset" + progressBar.getProgress(), Toast.LENGTH_SHORT).show();
                         break;
                 }
+                progress_percent = progressBar.getProgress()/10;
+                anim.setDuration(600);
+                progressBar.startAnimation(anim);
                 progressText.setText("Progress: " + (progress_percent/100.0)*goalDouble + " fl oz.");
                 editor.putInt("progress", progress_percent);
                 editor.commit();
             }
         });
-        */
+
 
     }
 
