@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.media.Image;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -49,7 +50,6 @@ public class MainActivity extends AppCompatActivity {
             editor = prefs.edit();
             editor.putBoolean("firstTime", false);
             editor.commit();
-            lastDay = Calendar.getInstance().DAY_OF_WEEK;
         }
 
         //sets up progress display
@@ -135,6 +135,7 @@ public class MainActivity extends AppCompatActivity {
         if(weightStr.length() > 0) {    //user entered a weight
             goalDouble = Double.parseDouble(weightStr) * 0.5 + mins * 12;
             goalNum.setText(Double.toString(goalDouble) + " fl oz.");
+            goalNum.setTextColor(getResources().getColor(R.color.navyBlue));
             Toast.makeText(getApplicationContext(), "Goal updated!", Toast.LENGTH_SHORT).show();
         }  else {
             goalNum.setText("None set");
@@ -144,7 +145,7 @@ public class MainActivity extends AppCompatActivity {
     //sets up toolbar
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.menu, menu);
         return true;
     }
 
@@ -171,7 +172,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void checkDayChange() {
-        int today = Calendar.getInstance().DAY_OF_WEEK;
+        int today = Calendar.getInstance().DAY_OF_YEAR;
         if(today != lastDay) {
             //TODO: set up preferences and write progress and day
         }
