@@ -37,6 +37,7 @@ import java.util.ArrayList;
 
 public class BarGraph extends AppCompatActivity /*implements OnChartValueSelectedListener*/ {
     BarChart barChart;
+    private int checkView;
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -51,6 +52,8 @@ public class BarGraph extends AppCompatActivity /*implements OnChartValueSelecte
          */
         barChart = (BarChart) findViewById(R.id.bargraph);
         barChart.setNoDataText("Start drinking!");
+
+        checkView = 0;
 
         /*Varibale created to contain all the entries in this graph
         * Hard coded some data for the prototype
@@ -142,6 +145,7 @@ public class BarGraph extends AppCompatActivity /*implements OnChartValueSelecte
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
+                        checkView = 1;
                         setContentView(R.layout.activity_exercisetracker);
                         TextView bikingTime = (TextView) findViewById(R.id.bikingTime);
                         TextView walkingTime = (TextView) findViewById(R.id.walkingTime);
@@ -212,10 +216,19 @@ public class BarGraph extends AppCompatActivity /*implements OnChartValueSelecte
 
     /*ensure that back after clicking a bar graph
     will take you back to bargraph page*/
+    @Override
     public void onBackPressed(){
         super.onBackPressed();
-        startActivity(new Intent(BarGraph.this, BarGraph.class));
-        finish();
+        if (checkView == 1){
+            startActivity(new Intent(BarGraph.this, BarGraph.class));
+            finish();
+        }
+
+        //i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        //i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+        //startActivity(new Intent(BarGraph.this, BarGraph.class));
+        //finish();
 
     }
 
