@@ -18,7 +18,7 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:id="@+id/goalText"
-        android:textColor="@android:color/black"
+        android:textColor="@color/navyBlue"
         android:textSize="30sp" />
 
     <TextView
@@ -48,5 +48,6 @@
         android:id="@+id/progressText"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:textSize="20dp" />
+        android:textSize="20dp"
+        android:textColor="@color/navyBlue" />
 </RelativeLayout>
