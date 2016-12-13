@@ -46,7 +46,7 @@ public class BarGraph extends AppCompatActivity /*implements OnChartValueSelecte
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_bargraph);
+       setContentView(R.layout.activity_bargraph);
         /*Create the bar chart
          * If no data is recorded this should say "Start drinking!"
          */
@@ -54,7 +54,10 @@ public class BarGraph extends AppCompatActivity /*implements OnChartValueSelecte
         barChart.setNoDataText("Start drinking!");
 
         checkView = 0;
+        setBars();
+    }
 
+    private void setBars() {
         /*Varibale created to contain all the entries in this graph
         * Hard coded some data for the prototype
         * */
@@ -75,6 +78,7 @@ public class BarGraph extends AppCompatActivity /*implements OnChartValueSelecte
         /*Makes all the bars the same size*/
         barChart.setFitBars(true);
         barChart.setData(barData);
+
         barData.setBarWidth(.96f);
         /*Hides the legend because only displaying one measure*/
         Legend legend = barChart.getLegend();
@@ -118,9 +122,9 @@ public class BarGraph extends AppCompatActivity /*implements OnChartValueSelecte
         * */
         LimitLine goal = new LimitLine(10f, "Goal Reached!");
         goal.setLineWidth(3f);
-        goal.setTextColor(Color.rgb(4,50,124));
+        goal.setTextColor(Color.rgb(4, 50, 124));
         goal.setTextSize(14f);
-        goal.setLineColor(Color.rgb(4,50,124));
+        goal.setLineColor(Color.rgb(4, 50, 124));
         yLeftAxis.addLimitLine(goal);
 
         /*Draw the axis line, and draw left gridlines*/
@@ -140,7 +144,7 @@ public class BarGraph extends AppCompatActivity /*implements OnChartValueSelecte
         /*Set values for exercise based on where click occurs,
          * i.e. what bar/day of the week
          * */
-        barChart.setOnTouchListener(new View.OnTouchListener(){
+        barChart.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
@@ -152,47 +156,47 @@ public class BarGraph extends AppCompatActivity /*implements OnChartValueSelecte
                         TextView runningTime = (TextView) findViewById(R.id.runningTime);
                         TextView date = (TextView) findViewById(R.id.currentDate);
                         /*Makes buttons invisible, so user does not click*/
-                        ImageView button  =(ImageView) findViewById(R.id.trackbutton);
+                        ImageView button = (ImageView) findViewById(R.id.trackbutton);
                         button.setVisibility(View.INVISIBLE);
-                       // ImageView arrowRight = (ImageView) findViewById(R.id.arrow1);
+                        // ImageView arrowRight = (ImageView) findViewById(R.id.arrow1);
                         //ImageView arrowLeft = (ImageView) findViewById(R.id.arrow2);
                         //arrowRight.setVisibility(View.INVISIBLE);
                         //arrowLeft.setVisibility(View.INVISIBLE);
                         TextView timer = (TextView) findViewById(R.id.timer);
                         timer.setVisibility(View.INVISIBLE);
-                        Log.d("TOUCHX",Float.toString(event.getX()));
+                        Log.d("TOUCHX", Float.toString(event.getX()));
                         if (event.getX() <= 222.31) {
-                            date.setText("Sun., Dec 4th");
+                            date.setText("Sun., Nov. 27th");
                             runningTime.setText("00:00");
                             bikingTime.setText("00:15");
                             walkingTime.setText("01:00");
-                        } else if(event.getX() > 222.31 && event.getX() <= 325.41) {
-                            date.setText("Mon., Dec 7th");
+                        } else if (event.getX() > 222.31 && event.getX() <= 325.41) {
+                            date.setText("Mon., Nov. 28th");
                             runningTime.setText("01:00");
                             bikingTime.setText("00:25");
                             walkingTime.setText("02:00");
-                        } else if(event.getX() > 321.41 && event.getX() <= 427.48) {
-                            date.setText("Tues., Dec 7th");
+                        } else if (event.getX() > 321.41 && event.getX() <= 427.48) {
+                            date.setText("Tues., Nov. 29th");
                             runningTime.setText("00:00");
                             bikingTime.setText("00:35");
                             walkingTime.setText("01:00");
-                        }else if(event.getX() > 427.48 && event.getX() <= 529.59){
-                            date.setText("Wed., Dec 7th");
+                        } else if (event.getX() > 427.48 && event.getX() <= 529.59) {
+                            date.setText("Wed., Nov. 30th");
                             runningTime.setText("00:45");
                             bikingTime.setText("01:45");
                             walkingTime.setText("00:30");
                         } else if (event.getX() >= 529.59 && event.getX() <= 628.66) {
-                            date.setText("Thurs., Dec 9th");
+                            date.setText("Thurs., Dec 1st");
                             runningTime.setText("00:45");
                             bikingTime.setText("00:35");
                             walkingTime.setText("03:00");
-                        } else if (event.getX() >= 628.66 && event.getX() <= 734.76){
-                                date.setText("Fri., Dec 9th");
-                                runningTime.setText("01:25");
-                                bikingTime.setText("00:45");
-                                walkingTime.setText("02:00");
+                        } else if (event.getX() >= 628.66 && event.getX() <= 734.76) {
+                            date.setText("Fri., Dec 2nd");
+                            runningTime.setText("01:25");
+                            bikingTime.setText("00:45");
+                            walkingTime.setText("02:00");
                         } else {
-                            date.setText("Sat., Dec 10th");
+                            date.setText("Sat., Dec 3rd");
                             runningTime.setText("02:45");
                             bikingTime.setText("00:15");
                             walkingTime.setText("00:45");
@@ -202,7 +206,7 @@ public class BarGraph extends AppCompatActivity /*implements OnChartValueSelecte
                 //Intent activityTracker = new Intent(BarGraph.this, ExerciseTracker.class);
                 //startActivity(activityTracker);
 
-            return true;
+                return true;
 
             }
         });
@@ -215,6 +219,94 @@ public class BarGraph extends AppCompatActivity /*implements OnChartValueSelecte
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
+
+    public void barsBack(View v) {
+
+
+        /*Varibale created to contain all the entries in this graph
+        * Hard coded some data for the prototype
+        * */
+                ArrayList<BarEntry> barEntries = new ArrayList<>();
+                barEntries.add(new BarEntry(1, 18.5f));
+                barEntries.add(new BarEntry(2, 20f));
+                barEntries.add(new BarEntry(3, 5f));
+                barEntries.add(new BarEntry(4, 22f));
+                barEntries.add(new BarEntry(5, 28f));
+                barEntries.add(new BarEntry(6, 10f));
+                barEntries.add(new BarEntry(7, 24f));
+        /*This created the data set to be plotted,
+        * if legend was showed this would display water consumption*/
+                BarDataSet barDataSet = new BarDataSet(barEntries, "Water Consumption");
+                barDataSet.setHighlightEnabled(true);
+                BarData barData = new BarData(barDataSet);
+
+        /*Makes all the bars the same size*/
+                barChart.setFitBars(true);
+                barChart.setData(barData);
+
+                barData.setBarWidth(.96f);
+        /*Hides the legend because only displaying one measure*/
+                Legend legend = barChart.getLegend();
+                legend.setEnabled(false);
+                barChart.setHighlightFullBarEnabled(true);
+
+        /*Allows users to pitch to zoom*/
+                barChart.setScaleEnabled(true);
+                barChart.setTouchEnabled(true);
+        /*Gets the xAxis*/
+                XAxis xAxis = barChart.getXAxis();
+        /*Changes the numbers on the xAxis to days of the week
+        * by getting passed into an axis formatter class*/
+                String[] xLabels = {"", "Su", "M", "T", "W", "Th", "F", "Sa"};
+                xAxis.setValueFormatter(new MyAxisFormatter(xLabels));
+        /*Options selected -
+        * draw the axis line and grid lines
+        * set the minimum x value to zero
+        * display the days of the week on the bottom of the graph
+        **/
+                xAxis.setDrawAxisLine(true);
+                xAxis.setDrawGridLines(false);
+                xAxis.setAxisMinimum(0f);
+                xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+                xAxis.setTextColor(Color.GRAY);
+                xAxis.setTextSize(12f);
+
+        /*Y-Axis options
+        * Hide the right side of the axis
+        * Set the minimum value to 0
+        * */
+                YAxis yLeftAxis = barChart.getAxisLeft();
+                //YAxis yRightAxis = barChart.getAxisRight();
+                barChart.getAxisRight().setEnabled(false);
+                yLeftAxis.setAxisMinimum(0f);
+        /*Add a limit line to designated reached goals
+        * Options:
+        *  Change text color to navy
+        *  Make text size 14
+        *  Make line color navy
+        * */
+                LimitLine goal = new LimitLine(20f, "Goal Reached!");
+                goal.setLineWidth(3f);
+                goal.setTextColor(Color.rgb(4, 50, 124));
+                goal.setTextSize(14f);
+                goal.setLineColor(Color.rgb(4, 50, 124));
+               // yLeftAxis.addLimitLine(goal);
+
+        /*Draw the axis line, and draw left gridlines*/
+                yLeftAxis.setDrawAxisLine(true);
+                yLeftAxis.setLabelCount(10, true);
+                yLeftAxis.setDrawGridLines(true); //  grid lines
+                yLeftAxis.setTextColor(Color.GRAY);
+                yLeftAxis.setTextSize(14f);
+                //yRightAxis.setDrawGridLines(false); // no grid lines
+        /*Take away description*/
+                barChart.setDescription(null);
+                //set a listener if bars are clicked
+                barChart.setHighlightPerTapEnabled(true);
+                barChart.setClickable(true);
+                barChart.invalidate();
+            }
+
 
     /*ensure that back after clicking a bar graph
     will take you back to bargraph page*/
