@@ -12,8 +12,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.os.Handler;
 
 import java.util.Calendar;
 
@@ -55,6 +57,27 @@ public class MainActivity extends AppCompatActivity {
         settings = getSharedPreferences("Settings", Context.MODE_PRIVATE);
         editor = settings.edit();
         final TextView progressText = (TextView) findViewById(R.id.progressText);
+
+        // Get the Drawable custom_progressbar
+        // set the drawable as progress drawable
+        final ProgressBar progressBar = (ProgressBar) findViewById(R.id.progressBar1);
+        progressBar.setProgress(0);
+        progressBar.setScaleY(63f);
+        progressBar.setScaleX(1.12f);
+
+        final Handler h = new Handler();
+        final int delay = 50; //milliseconds
+
+        h.postDelayed(new Runnable(){
+            public void run(){
+
+                //do something
+                progressBar.incrementProgressBy(1);
+                h.postDelayed(this, delay);
+            }
+        }, delay);
+
+        /*
         imageButton = (ImageButton) findViewById(R.id.imageButton);
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,6 +110,8 @@ public class MainActivity extends AppCompatActivity {
                 editor.commit();
             }
         });
+        */
+
     }
 
     @Override
