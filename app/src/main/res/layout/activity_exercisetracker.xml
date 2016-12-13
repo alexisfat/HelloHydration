@@ -2,114 +2,41 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#EFF2F2">
 
-    <TableLayout
+   <!-- <ImageView
+        android:layout_width="50dp"
+        android:layout_height="80dp"
+        android:layout_alignLeft="@+id/currentDate"
+        android:layout_row="0"
+        android:layout_column="0"
+        app:srcCompat="@drawable/ic_arrow_back_black_24dp"
+        android:id="@+id/arrow1" />
+
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_height="80dp"
+        android:layout_row="0"
+        android:layout_column="2"
+
+        android:layout_alignRight="@id/currentDate"
+        app:srcCompat="@drawable/ic_arrow_back_black_24dp"
+        android:rotation="180"
+        android:id="@+id/arrow2" />-->
+    <TextView
+        android:id="@+id/currentDate"
+        android:text="Friday, Dec. 9"
+        android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <TableRow android:paddingTop="20dp">
-
-            <ImageView
-                android:paddingLeft="10dp"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                app:srcCompat="@drawable/ic_arrow_back_black_24dp"
-                android:id="@+id/arrow1" />
-
-            <TextView
-                android:id="@+id/currentDate"
-                android:text="Friday, Dec 9"
-                android:layout_height="wrap_content"
-                android:padding="3dip"
-                android:gravity="center_horizontal"
-                android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                android:layout_marginLeft="15dp"
-                android:paddingLeft="10dp"
-                android:layout_marginTop="10dp"
-
-                android:layout_width="match_parent" />
-
-            <ImageView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                app:srcCompat="@drawable/ic_arrow_back_black_24dp"
-                android:rotation="180"
-                android:id="@+id/arrow2" />
-
-        </TableRow>
-
-        <TableRow android:paddingTop="10dp">
-
-            <ImageView
-                android:paddingLeft="30dp"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                app:srcCompat="@drawable/ic_directions_walk_black_24dp"
-                android:id="@+id/imageView5" />
-
-            <Space
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:id="@+id/walkingTime"
-                android:text="00:00:00"
-                android:textSize="30dp"
-                android:paddingRight="30dp"
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:gravity="center"
-                android:padding="3dip" />
-        </TableRow>
-
-        <TableRow android:paddingTop="10dp">
-            <ImageView
-                android:paddingLeft="30dp"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                app:srcCompat="@drawable/ic_directions_run_black_24dp"
-                android:id="@+id/imageView6" />
-
-            <Space
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:id="@+id/runningTime"
-                android:text="00:00:00"
-                android:textSize="30dp"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:gravity="center"
-                android:padding="3dip" />
-        </TableRow>
-
-        <TableRow android:paddingTop="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            <ImageView
-                android:paddingLeft="30dp"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                app:srcCompat="@drawable/ic_directions_bike_black_24dp"
-                android:id="@+id/imageView7" />
-
-            <Space
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:id="@+id/bikingTime"
-                android:text="00:00:00"
-                android:textSize="30dp"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:gravity="center"
-                android:padding="3dip" />
-        </TableRow>
-
-    </TableLayout>
+        android:padding="3dip"
+        android:gravity="center_horizontal"
+        android:textAppearance="@style/TextAppearance.AppCompat.Title"
+        android:layout_marginTop="10dp"
+        android:layout_row="0"
+        android:layout_column="1"
+        android:textColor="#1B4965"
+        android:textSize="30dp" />
 
     <TextView
         android:text="00:00:00"
@@ -131,5 +58,113 @@
         android:id="@+id/trackbutton"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:weightSum="1"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_weight="0.19" />
+
+        <TableRow android:paddingTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+          <!--  <ImageView
+                android:paddingLeft="10dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginRight="30dp"
+                app:srcCompat="@drawable/ic_arrow_back_black_24dp"
+                android:id="@+id/arrow1" />-->
+
+            <!---   <ImageView
+                   android:paddingLeft="10dp"
+                   android:layout_width="50dp"
+                   android:layout_height="50dp"
+                   android:layout_marginRight="80dp"
+                   app:srcCompat="@drawable/ic_arrow_back_black_24dp"
+                   android:rotation="180"
+                   android:id="@+id/arrow2" /> -->
+
+        </TableRow>
+
+        <TableRow android:paddingTop="10dp">
+
+            <ImageView
+                android:paddingLeft="30dp"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                app:srcCompat="@drawable/ic_directions_walk_black_24dp"
+                android:id="@+id/imageView5" />
+
+            <TextView
+                android:id="@+id/walkingTime"
+                android:text="00:00:00"
+                android:textSize="30dp"
+                android:paddingRight="30dp"
+                android:layout_marginLeft="95dp"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:gravity="center"
+                android:padding="3dip" />
+
+
+
+        </TableRow>
+
+        <TableRow android:paddingTop="10dp">
+            <ImageView
+                android:paddingLeft="30dp"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                app:srcCompat="@drawable/ic_directions_run_black_24dp"
+                android:id="@+id/imageView6" />
+
+            <TextView
+                android:id="@+id/runningTime"
+                android:text="00:00:00"
+                android:textSize="30dp"
+                android:paddingRight="30dp"
+                android:layout_marginLeft="95dp"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:gravity="center"
+                android:padding="3dip"  />
+
+
+
+        </TableRow>
+
+        <TableRow android:paddingTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <ImageView
+                android:paddingLeft="30dp"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                app:srcCompat="@drawable/ic_directions_bike_black_24dp"
+                android:id="@+id/imageView7" />
+
+            <TextView
+                android:id="@+id/bikingTime"
+                android:text="00:00:00"
+                android:textSize="30dp"
+                android:paddingRight="30dp"
+                android:layout_marginLeft="95dp"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:gravity="center"
+                android:padding="3dip" />
+
+
+        </TableRow>
+
+    </TableLayout>
 
 </RelativeLayout>
