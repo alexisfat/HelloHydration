@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
         progressBar.setProgress(0);
         progressBar.setScaleY(63f);
         progressBar.setScaleX(1.12f);
-
+        /*
         final Handler h = new Handler();
         final int delay = 50; //milliseconds
 
@@ -76,7 +76,10 @@ public class MainActivity extends AppCompatActivity {
                 h.postDelayed(this, delay);
             }
         }, delay);
-
+        */
+        ProgressBarAnimation anim = new ProgressBarAnimation(progressBar, 0, 700);
+        anim.setDuration(5000);
+        progressBar.startAnimation(anim);
         /*
         imageButton = (ImageButton) findViewById(R.id.imageButton);
         imageButton.setOnClickListener(new View.OnClickListener() {
