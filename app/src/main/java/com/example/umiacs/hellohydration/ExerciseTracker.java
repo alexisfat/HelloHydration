@@ -1,14 +1,21 @@
 package com.example.umiacs.hellohydration;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -17,10 +24,14 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.common.api.GoogleApiClient;
+
 import java.util.Timer;
 
 /**
  * Created by alexandraboukhvalova on 12/3/16.
+ * Location tracking code referenced from:
+ * https://developer.android.com/guide/topics/location/strategies.html
  */
 
 public class ExerciseTracker extends AppCompatActivity implements SensorEventListener {
@@ -80,11 +91,13 @@ public class ExerciseTracker extends AppCompatActivity implements SensorEventLis
     //Boolean to keep track of when the acceleration after 5 seconds has been recorded
     private boolean accTaken = false;
 
+    long distanceTravelled;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exercisetracker);
+
 
         //setting up accelerometer sensors
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
@@ -117,6 +130,10 @@ public class ExerciseTracker extends AppCompatActivity implements SensorEventLis
                     //calculating user's initial velocity based on acceleration in first 5 seconds
                     velocity = (userInitialAcceleration * 5);
 
+                    /*distanceTravelled = calculateDistance(longitudeStart, latitudeStart,
+                            longitudeStop, latitudeStop);
+                    velocity = distanceTravelled / elapsedTime;*/
+
                     if(velocity >= 0){
                         activity = walking;
                     }
@@ -135,6 +152,9 @@ public class ExerciseTracker extends AppCompatActivity implements SensorEventLis
                     }
 
                     updateActivityTimer(activity);
+                    /*longitudeStop = location.getLongitude();
+                    latitudeStop = location.getLatitude();*/
+
 
                     //share updated exercise times with the rest of the applications
                     SharedPreferences.Editor editor = exerciseTracker.edit();
@@ -223,11 +243,11 @@ public class ExerciseTracker extends AppCompatActivity implements SensorEventLis
 
     private void updateActivityTimer (int activity){
 
-        secs = (long)(elapsedTime/1000);
+        secs = (elapsedTime/1000);
         long totalSeconds = secs;
-        mins = (long)((elapsedTime/1000)/60);
+        mins = ((elapsedTime/1000)/60);
 
-        hrs = (long)(((elapsedTime/1000)/60)/60);
+        hrs = (((elapsedTime/1000)/60)/60);
 
         String updateMins = "";
         String updateSec = "";
@@ -323,6 +343,22 @@ public class ExerciseTracker extends AppCompatActivity implements SensorEventLis
             mHandler.postDelayed(this,REFRESH_RATE);
         }
     };
+
+    /* To calculate distance between two points.
+    * Code obtained from:
+    * http://stackoverflow.com/questions/20398898/how-to-get-speed-in-android-app-using-location
+    * -or-accelerometer-or-some-other-wa*/
+    private static long calculateDistance(double lat1, double lng1, double lat2, double lng2) {
+        double dLat = Math.toRadians(lat2 - lat1);
+        double dLon = Math.toRadians(lng2 - lng1);
+        double a = Math.sin(dLat / 2) * Math.sin(dLat / 2)
+                + Math.cos(Math.toRadians(lat1))
+                * Math.cos(Math.toRadians(lat2)) * Math.sin(dLon / 2)
+                * Math.sin(dLon / 2);
+        double c = 2 * Math.asin(Math.sqrt(a));
+        long distanceInMeters = Math.round(6371000 * c);
+        return distanceInMeters;
+    }
 
     //Sensor code based on Android developer page
     //https://developer.android.com/reference/android/hardware/SensorEvent.html#values
