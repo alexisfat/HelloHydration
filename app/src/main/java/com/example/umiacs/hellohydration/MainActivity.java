@@ -141,10 +141,6 @@ public class MainActivity extends AppCompatActivity {
                 intent = new Intent(MainActivity.this, ExerciseTracker.class);
                 startActivity(intent);
                 break;
-            case(R.id.action_mapsactivity):
-                intent = new Intent(MainActivity.this, MapsActivity.class);
-                startActivity(intent);
-                break;
         }
         return super.onOptionsItemSelected(item);
     }
