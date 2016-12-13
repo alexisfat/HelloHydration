@@ -17,6 +17,8 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import org.w3c.dom.Text;
+
 import java.util.Arrays;
 
 /**
@@ -60,9 +62,9 @@ public class ExerciseTracker extends AppCompatActivity implements SensorEventLis
 
     //exercise acceleration limits in meters/second^2
     //walking max velocity calculated based on assumption that person can walk no faster than 4.5mph
-    private double walkingMax = 2;
+    private double walkingMax = 1.5;
     //running max velocity calculated based on assumption that person will run at a max speed of 9.6mph
-    private double runningMax = 5;
+    private double runningMax = 4;
 
     private double userInitialAcceleration = -1;
 
@@ -73,6 +75,9 @@ public class ExerciseTracker extends AppCompatActivity implements SensorEventLis
     private long lastUpdate = 0;
     //Boolean to keep track of when the acceleration after 5 seconds has been recorded
     private boolean accTaken = false;
+
+    //TODO NICK REMOVE THIS
+    private int counter = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,6 +131,15 @@ public class ExerciseTracker extends AppCompatActivity implements SensorEventLis
                     } else if (userInitialAcceleration == 0) {
                         activity = notMoving;
                     }
+
+                    //TODO NICK UNCOMMENT THIS TO TEST AND THEN REMOVE!!!!!
+                    /*if (counter % 2 == 0) {
+                        activity = walking;
+                    } else {
+                        activity = running;
+                    }*/
+
+                    counter += 1;
 
                     updateActivityTimer(activity);
                     /*longitudeStop = location.getLongitude();
@@ -322,7 +336,7 @@ public class ExerciseTracker extends AppCompatActivity implements SensorEventLis
                long curTime = System.currentTimeMillis();
 
             //take acceleration almost immediately after user presses tracking button
-            if (((curTime - lastUpdate) > 2000) && !accTaken && tracking) {
+            if (((curTime - lastUpdate) > 1000) && !accTaken && tracking) {
                 float x = sensorEvent.values[0];
                 float y = sensorEvent.values[1];
                 float z = sensorEvent.values[2];
@@ -350,6 +364,7 @@ public class ExerciseTracker extends AppCompatActivity implements SensorEventLis
                 Log.d("X", Float.toString(x));
                 Log.d("Y", Float.toString(y));
                 Log.d("Z", Float.toString(z));
+                Log.d("acc", Double.toString(userInitialAcceleration));
 
             }
                _lastTimeAccelSenorChangeInMs = curTime;
