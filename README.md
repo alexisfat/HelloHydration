@@ -20,10 +20,19 @@ TBA
 ###Features
 * Toolbar that allows for easy transitions between pages.
 * Exercise tracker that deciphers whether an action is walking, running, or biking.
+* Exercise tracker that provides a running timer for the user as they track exercise.
+* Exercise tracker shows cumulative tracking time for each exercise through various rounds of tracking. 
 * Graphical view with touchable bars to see your weekly hydration/activity.
 * A cool animation of the water droplet filling as you reach your goal!
 * Settings that change the projected goal based on your personal information.
 <br>
+
+###How to Use
+Patient can open app and see their daily hydration progress and goal based on the numerical amount printed on the screen (goal) and the amount of the water droplet filled up (progress to goal). User can access weekly progress, exercise tracking, and settings pages through the toolbar. The weekly progress page can be accessed with the icon that looks like a bar graph. This page is interactive and can scroll between multiple weeks of progress. To receive details on past exercise tracking information, user can tap on individual bars. 
+
+To access the exercise tracking page, user can tap on running icon in the tool bar. On this page, the user can see the amount of time they have been running, walking, or biking. In order to start tracking exercise, user can press the play button. The tracker will automatically detect user exercise based on accelerometer and update the main timer values accordingly.
+
+To adjust settings, user can tap on the settings icon on the right most side of the toolbar. All fields can be edited by tapping on them.
 
 ###References
 * Android's Dev Pages: 
