@@ -11,7 +11,7 @@ It also takes into account the user's daily activity and adjusts the goal accord
 * Alex Boukhvalova
    * Senior in Computer Science & Biology
 * Calvin Lu
-   * Senior in Computer & Economics
+   * Senior in Computer Science & Economics
 <br>
 
 ###Video Link
