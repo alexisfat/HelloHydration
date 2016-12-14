@@ -18,13 +18,23 @@ It also takes into account the user's daily activity and adjusts the goal accord
 TBA
 
 ###Features
-* Toolbar that allows for easy transitions between pages.
-* Exercise tracker that deciphers whether an action is walking, running, or biking.
-* Exercise tracker that provides a running timer for the user as they track exercise.
-* Exercise tracker shows cumulative tracking time for each exercise through various rounds of tracking. 
-* Graphical view with touchable bars to see your weekly hydration/activity.
-* A cool animation of the water droplet filling as you reach your goal!
-* Settings that change the projected goal based on your personal information.
+* Toolbar
+  * allows for easy transitions between Views
+  ![Alt text](https://github.com/alexisfat/HelloHydration/blob/master/screenshots/Toolbar.png)
+* Exercise tracker
+  * deciphers whether an action is walking, running, or biking.
+  * provides a running timer for the user as they track exercise.
+  * displays cumulative tracking time for each exercise through various rounds of tracking.
+  ![Alt text](https://github.com/alexisfat/HelloHydration/blob/master/screenshots/Activity_levels.png)
+* Water droplet
+  * Graphical view with touchable bars to see your weekly hydration/activity.
+  * Realistic animation of the water droplet filling up as you reach your goal!
+  ![Alt text](https://github.com/alexisfat/HelloHydration/blob/master/screenshots/Hydration.png)
+* Settings
+  * automatically recalculates the projected goal based on your personal information.
+  ![Alt text](https://github.com/alexisfat/HelloHydration/blob/master/screenshots/Settings.png)
+
+  
 <br>
 
 ###How to Use
