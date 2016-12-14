@@ -15,7 +15,7 @@ It also takes into account the user's daily activity and adjusts the goal accord
 <br>
 
 ###Video Link
-TBA
+https://www.youtube.com/watch?v=3T8sRL8CYo8&feature=youtu.be
 
 ###Features
 * Toolbar
