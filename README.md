@@ -28,6 +28,8 @@ TBA
 <br>
 
 ###How to Use
+Hello Hydration can be run on Android Emulator or any Android device. Run the code from Android studio to install. App icon on phone will appear as a white background with a blue 'H' and droplet. 
+
 Patient can open app and see their daily hydration progress and goal based on the numerical amount printed on the screen (goal) and the amount of the water droplet filled up (progress to goal). User can access weekly progress, exercise tracking, and settings pages through the toolbar. The weekly progress page can be accessed with the icon that looks like a bar graph. This page is interactive and can scroll between multiple weeks of progress. To receive details on past exercise tracking information, user can tap on individual bars. 
 
 To access the exercise tracking page, user can tap on running icon in the tool bar. On this page, the user can see the amount of time they have been running, walking, or biking. In order to start tracking exercise, user can press the play button. The tracker will automatically detect user exercise based on accelerometer and update the main timer values accordingly.
