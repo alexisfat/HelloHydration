@@ -3,6 +3,16 @@ This application is design to help users track their daily water intake.
 It takes into account the user's height and weight to come up with the perfect daily water goal!
 It also takes into account the user's daily activity and adjusts the goal accordingly.
 <br>
+###The Team
+* Nick Behrje
+  * Senior in Computer Science with a Linguistics Minor
+* Alex Berlinger
+  * Senior in Computer Science & Psychology
+* Alex Boukhvalova
+   * Senior in Computer Science & Biology
+* Calvin Lu
+   * Senior in Computer & Economics
+<br>
 
 ###Video Link
 TBA
