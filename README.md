@@ -22,23 +22,22 @@ TBA
   * allows for easy transitions between Views
   
   ![Toolbar](https://github.com/alexisfat/HelloHydration/blob/master/screenshots/Toolbar.png)
+* Water droplet
+  * Graphical view with touchable bars to see your weekly hydration/activity.
+  * Realistic animation of the water droplet filling up as you reach your goal!
+  
+  ![Water Droplet](https://github.com/alexisfat/HelloHydration/blob/master/screenshots/Hydration.png)
 * Exercise tracker
   * deciphers whether an action is walking, running, or biking.
   * provides a running timer for the user as they track exercise.
   * displays cumulative tracking time for each exercise through various rounds of tracking.
   
   ![Activity Levels](https://github.com/alexisfat/HelloHydration/blob/master/screenshots/Activity_levels.png)
-* Water droplet
-  * Graphical view with touchable bars to see your weekly hydration/activity.
-  * Realistic animation of the water droplet filling up as you reach your goal!
-  
-  ![Water Droplet](https://github.com/alexisfat/HelloHydration/blob/master/screenshots/Hydration.png)
 * Settings
-  * automatically recalculates the projected goal based on your personal information.
+  * automatically calculates the projected goal based on your personal information.
   
   ![Settings](https://github.com/alexisfat/HelloHydration/blob/master/screenshots/Settings.png)
 
-  
 <br>
 
 ###How to Use
