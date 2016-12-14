@@ -48,5 +48,8 @@ To adjust settings, user can tap on the settings icon on the right most side of 
 * Iconography 
   * Native to Android Studio - Vector Assets
 * Timer for Activity Tracker:
-  * http://www.shawnbe.com/index.php/tutorial/tutorial-3-a-simple-stopwatch-lets-add-the-code/   
+  * http://www.shawnbe.com/index.php/tutorial/tutorial-3-a-simple-stopwatch-lets-add-the-code/
+* Water Level Sensor
+  * Milone 8 inch https://www.adafruit.com/products/463
+  * Feather Huzzah Wifi Module https://www.adafruit.com/product/2821
 <br>
